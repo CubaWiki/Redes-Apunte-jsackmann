@@ -1,0 +1,1825 @@
+%
+%  untitled
+%
+%  Created by Julian Sackmann on 2012-07-24.
+%  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+%
+\documentclass[]{article}
+
+% Use utf-8 encoding for foreign characters
+\usepackage[utf8]{inputenx}
+
+% Setup for fullpage use
+\usepackage{fullpage}
+
+% Uncomment some of the following if you use the features
+%
+% Running Headers and footers
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+% Multipart figures
+%\usepackage{subfigure}
+
+% More symbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{latexsym}
+
+% Surround parts of graphics with box
+\usepackage{boxedminipage}
+
+% Package for including code in the document
+\usepackage{listings}
+
+% If you want to generate a toc for each chapter (use with book)
+\usepackage[nohints]{minitoc}
+
+% This is now the recommended way for checking for PDFLaTeX:
+\usepackage{ifpdf}
+
+\usepackage{indentfirst}
+\usepackage{footnote}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{mathtools}
+\usepackage{algorithm2e}
+
+
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\title{Apunte de Teoría de las Comunicaciones}
+\author{ Julián Sackmann }
+
+\date{10 de Junio de 2014}
+
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{12pt}
+\addtolength{\headsep}{0.3cm}
+\lhead{Teoría de las Comunicaciones}
+\rhead{Julián Sackmann}
+\cfoot{P\'agina \thepage\ de \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+\setcounter{page}{0}
+
+
+\begin{document}
+
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg, .tif}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+%\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{4}
+
+\newcommand{\ig}[2]{
+\begin{center}
+	\includegraphics[scale=#1]{images/#2}
+\end{center}}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}~\newline
+ \indent }
+\newcommand{\subsubsubsubsection}[1]{\subparagraph{#1}~\newline}
+\newcommand{\partir}[4]{
+\begin{minipage}[b]{#1\linewidth}\centering\begin{center}#3\end{center}\end{minipage}\begin{minipage}[b]{#2\linewidth}\centering\begin{center}#4\end{center}\end{minipage}
+}
+\newcommand{\flecha}[1]{\xrightarrow{\hspace*{0.3cm} #1 \hspace*{0.3cm}}}
+\newcommand{\Flecha}[1]{\xRightarrow{\hspace*{0.3cm} #1 \hspace*{0.3cm}}}
+\newcommand{\caja}[2]{\begin{center}
+	\fbox{
+		\parbox{#1\linewidth}{
+			#2
+		}
+	}
+\end{center}}
+\renewcommand\contentsname{Índice}
+
+
+
+
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Universidad de Buenos Aires}\\[1.5cm] % Name of your university/college
+\textsc{\Large Facultad de Ciencias exactas y Naturales}\\[0.5cm] % Major heading such as course name
+\textsc{\large Licenciatura en Ciencias de la computación}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Teóricas de Teoría de las Comunicaciones}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+%
+% \begin{minipage}{0.4\textwidth}
+% \begin{flushleft} \large
+% \emph{Autor:}\\
+% Julián \textsc{Sackmann} % Your name
+% \end{flushleft}
+% \end{minipage}
+% ~
+% \begin{minipage}{0.4\textwidth}
+% \begin{flushright} \large
+% \emph{} \\
+%  \textsc{} % Supervisor's Name
+% \end{flushright}
+% \end{minipage}\\[4cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+\Large \emph{Autor:}\\
+Julián \textsc{Sackmann}\\[2cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large 10 de Septiembre de 2012}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{\textwidth}
+    \begin{minipage}[t]{.55 \textwidth}
+        \includegraphics{logo_uba.jpg}
+    \end{minipage}%%
+    \begin{minipage}[b]{.45 \textwidth}
+        \textbf{\textsf{Facultad de Ciencias Exactas y Naturales}} \\
+        \textsf{Universidad de Buenos Aires} \\
+        {\scriptsize %
+        Ciudad Universitaria - (Pabell\'on I/Planta Baja) \\
+            Intendente G\"uiraldes 2160 - C1428EGA \\
+        Ciudad Aut\'onoma de Buenos Aires - Rep. Argentina \\
+            Tel/Fax: (54 11) 4576-3359 \\
+        http://exactas.uba.ar \\
+        }
+    \end{minipage}
+\end{minipage}%
+
+%\includegraphics[scale=1]{logo_uba.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+%\includegraphics{logo_uba.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+
+
+%\maketitle
+
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\newpage
+
+\section{Introducción}
+\begin{itemize}
+	\item \textbf{Internet}: la red de redes más grande del mundo, que usa los protocolos \texttt{TCP} y \emph{packet switching}. Funciona sobre cualquier subsistema de comunicaciones.
+	\item Nodo: tiene asociada una dirección (\emph{bytestring} que lo idenetifica unívocamente)
+	\begin{itemize}
+		\item \emph{hosts}.
+		\item \emph{switches}.
+	\end{itemize}
+	\item Enlace:
+	\begin{itemize}
+		\item Punto a punto.
+		\item Múltiple.
+	\end{itemize}
+	\item \textbf{Red de computadoras}: se define recursivamente como:
+	\begin{itemize}
+		\item Un nodo.
+		\item Dos o más nodos conectados por un enlace.
+		\item Dos o más redes conectadas por un nodo.
+	\end{itemize}
+	\item \textbf{Conmutación de circuitos}: la conexión sólo se establece cuando se necesita. Una vez establecida, el ancho de banda queda reservado al usuario, lo use o no. Se subutiliza la infraestructura.
+	\item \textbf{Conmutación de paquetes}: el ancho de banda disponible se comparte entre los diversos usuarios. Se \textbf{multiplexa} el tráfico. Se pueden generar circuitos virtuales. El ancho de banda no está reservado, pero se aprovecha mejor la infraestructura.
+	\item \textbf{Routeo}: proceso de reenvío de un mensaje a su nodo destino basado en su dirección.
+	\begin{itemize}
+		\item \emph{unicast}: el destinatario es un nodo específico.
+		\item \emph{multicast}: el destinatario es un conjunto específico de nodos.
+		\item \emph{broadcast}: el destinatario son todos los nodos de la red.
+	\end{itemize}
+	\item \textbf{Multiplexación}: es la combinación de dos o más canales de información en un solo medio de transmisión.
+	\begin{itemize}
+		\item ...por división de tiempo: los paquetes se encolan y compiten por el enlace. Si el buffer que tiene el nodo no alcanza, se denomina \textbf{congestión}.
+		% \begin{center}
+		% 	\ig{0.4}{MultiplexTime.png}
+		% \end{center}
+		\item ...por división de frecuencia.
+		% \begin{center}
+		% 	\ig{0.4}{MultiplexFreq.png}
+		% \end{center}
+	\end{itemize}
+\end{itemize}
+
+\partir{0.5}{0.5}{
+    \textbf{\underline{FDM}}\\
+    \begin{center}
+        \ig{0.2}{MultiplexFreq.png}
+    \end{center}
+    \begin{itemize}
+        \item El espectro de frecuencias es dividido entre canales lógicos: cada usuario tiene posesión exclusiva de alguna banda de frecuencia.
+        \item Requiere circuitería analógica.
+        \item Provee mejor latencia\footnotemark.
+    \end{itemize}
+    \vspace{1cm}
+}{
+    \textbf{\underline{TDM}}\\
+    \begin{center}
+        \ig{0.2}{MultiplexTime.png}
+    \end{center}
+    \begin{itemize}
+        \item Los usuarios toman turnos (en round robin), obteniendo periódicamente cada uno el ancho de banda completo por un pequeño período de tiempo.
+        \item Puede ser manejado enteramente por electrónica digital.
+        % \item Sólo puede ser usado para datos digitales.
+        \item Es más flexible (puede asignar más tiempo a señales más prioritarias dinámicamente).
+    \end{itemize}
+}
+\footnotetext{Latencia: el tiempo que le toma a los datos llegar a destino}
+
+\section{Modelo OSI}
+Es un modelo conceptual que caracteriza y estandariza las estructura de una red de comunicaciones, particionándola en \textbf{capas de abstracción}.
+
+\begin{center}
+    \begin{table}[h]
+        \begin{tabular}{|p{2cm}|l|l|p{8cm}|}
+            \hline
+            \multicolumn{4}{|c|}{\textbf{\large{Modelo OSI}}}                                                                                                                                                                                         \\ \hline
+            \multicolumn{1}{|l|}{}                     & \multicolumn{1}{c|}{\textbf{Unidad de dato}}    & \multicolumn{1}{c|}{\textbf{Capa}}      & \multicolumn{1}{c|}{\textbf{Función}}                                                    \\ \hline
+                                                       &                         & 7. Aplicación   & Servicio de red para aplicación                                  \\ \cline{3-4}
+                                                       &                         & 6. Presentación & Representación de datos, cifrado, estandarización.               \\ \cline{3-4}
+                                                       & \multirow{-3}{*}{Datos} & 5. Sesión       & Comunicación entre hosts, manejo de sesiones entre aplicaciones. \\ \cline{2-4}
+            \multirow{-4}{*}{\textbf{Host}}            & Segmento                & 4. Transporte   & Routeo confiable de paquetes entre nodos de la red.              \\ \hline
+                                                       & Paquete / Datagrama     & 3. Red          & Direccionamiento, routeo no confiable de datagramas entre nodos. \\ \cline{2-4}
+                                                       & Bit / Frame             & 2. Enlace       & Conexión confiable en enlace punto a punto.                      \\ \cline{2-4}
+            \multirow{-3}{*}{\textbf{Medios}}          & Bit                     & 1. Físico       & Conexión no confiable en enlace punto a punto.                   \\ \hline
+        \end{tabular}
+    \end{table}
+\end{center}
+
+
+Las comunicaciones se dan en capas que se brindan servicios entre si. Pasar por cada capa implica el agregado de información de control en forma de encabezados:
+\ig{0.3}{Encabezados.png}
+
+
+\subsection{OSI-ISO vs Internet}
+% //MJSDO COMPLETAME
+
+\ig{0.4}{OSInternet.png}
+
+\section{Nivel Físico}
+\begin{itemize}
+    \item \textbf{Señal}: es una onda electromagnética con dos campos ortogonales: uno eléctrico y uno magnético.
+    \item \textbf{Onda electromagnética}: es un campo eléctrico magnético que se propaga por un medio, vibrando a una frecuencia determinada. TIene un comportamiento periódico en el eje longitudinal.
+    \item \textbf{Logintud de onda}: es el periodo o repetición a longitudes constantes. Coloqualmente, es la ``distancia que ocupa un ciclo''. Se define como: $\displaystyle \lambda = \frac{v}{f}$ donde:
+    \begin{itemize}
+        \item $v$ es la velocidad de la onda en el medio de transmisión.
+        \item $f$ es la frecuencia de oscilación.
+    \end{itemize}
+    \item Una función $f$ es periódica si existe un valor $T$ tal que $f(t) = f(t + T)$. El $T$ más chico que cumpla esto (mayor que 0) se lo llama \textbf{período fundamental}.
+    \item La serie trigonométrica de Fourier permite expresar funciones periodicas $f(t)$ con período $T$ de la siguiente forma:
+    \begin{center}
+        $f(t) = \displaystyle \frac{1}{2}a_0 + \sum_{i=0}^{\infty}[a_i\ cos(n\omega_0\ t) + b_i\ sen(n\omega_0\ t)]$
+    \end{center}
+    donde
+    \begin{center}
+        $\omega_0 = \displaystyle \frac{2p}{T}$
+    \end{center}
+
+    Para encontrar los coeficientes, se usa la ortogonalidad.
+\end{itemize}
+
+Para enviar datos binarios por un canal necesitamos una onda cuadrada. Ergo, necesitamos emular una onda cuadrada con ondas senoidales:
+
+\ig{0.4}{senoidACuadradas.png}
+
+\begin{itemize}
+    \item \textbf{Espectro}: margen de frecuencias contenidas en la señal.
+    \item \textbf{Ancho de banda absoluto}: anchura del espectro.
+    \item \textbf{Ancho de banda efectivo}: banda de frecuencias que ontienen la mayor parte de la energía.
+    \item \textbf{Componente continua (DC)}: componente de frecuencia cero.
+\end{itemize}
+
+\subsection{Medios de transmisión}
+\begin{itemize}
+    \item Guiados:
+    \begin{itemize}
+        \item Trenzado.
+        \item Coaxial.
+        \item Red eléctrica.
+        \item Fibra óptica.
+    \end{itemize}
+    \item Sin Guía:
+    \begin{itemize}
+        \item Radio.
+        \item Microondas.
+        \item Infrarrojo.
+        \item Láser.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Teorema del muestreo}
+Vimos que las señales periodicas se pueden descomponer como un sumatorio de senos y cosenos cada uno de una amplitud, frecuencia y fase diferente (Desarrollo en Serie de Fourier). Si dichas sinusoides las muestreamos, el caso más crítico de muestreo será aquella de mayor frecuencia (frecuencia máxima $f_m$ que corresponde con el periodo mínimo $T_{min}=\frac{1}{f_m}$) la cual vamos a llamar:
+\begin{center}
+    $f(t)=A\ sin(2\pi f_m t + \phi)$
+\end{center}
+donde:
+\begin{itemize}
+    \item $A$: amplitud.
+    \item $t$: tiempo.
+    \item $\phi$: fase de la señal.
+\end{itemize}
+
+~\newline
+\caja{0.8}{
+    El \textbf{teorema de muestreo}, formulado por \textbf{Nyquist} en 1924 dice que si queremos reconstruir una señal de frecuencia máxima $f_m$, debemos de muestrear a $2 f_m$. La frecuencia de muestreo (\emph{sampling}) se llama $f_s$ o también \textbf{frecuencia de modulación}.
+}
+
+\underline{Ejemplos}:
+\begin{itemize}
+    \item CDs de audio samplean 44100 veces por segundo $\Rightarrow$ captan frecuencias de 22.05KHz.
+    \item La voz tiene un espectro de 4KHz en el teléfono $\Rightarrow$ se tiene que samplear a 8000 muestras por segundo (125 $\mu$seg/muestra).
+\end{itemize}
+
+\subsection{Conversión analógico digital}
+
+\ig{0.3}{callWithComputer.png}
+
+% \begin{itemize}
+%     \item \textbf{Modem} (\emph{\textbf{mo}ulator - \textbf{dem}odulator}): convierte datos digitales en señales analógicas para su transmisión.
+%     \item \textbf{Codec} (\emph{\textbf{co}der - \textbf{dec}oder}): codifica (y frecuentemente comprime) una señal o \emph{stream} de datos digitales.
+% \end{itemize}
+
+La conversión analógica digital consta de dos etapas.
+\begin{itemize}
+    \item Se muestrea la señal al doble del ancho de banda, obteniendo una serie de \textbf{pulsos de amplitud variable} (PAM).
+    \item Se cuantifican las muestras aproximándolas mediante un entero de $n$ bits.
+\end{itemize}
+
+\underline{Ejemplo}: el enlace \texttt{T1} consiste de 24 canales de voz de 8 bits cada uno multiplexados juntos. Son 193 bits (hay uno extra para framing) conduciendo cada 125 $\mu$seg. Si queremos calcular la velocidad:
+\begin{center}
+    $\frac{1}{0.000125}$seg$ \times 193$ bits $= 1544000$ bits/seg $=1.544$ \textbf{Mbps}
+\end{center}
+
+\subsection{Teoría de la información}
+Fue establecida por Claude Shannon. Predica sobre codificaciones usadas para canales con o sin ruido.
+
+Uno de ellos describe la máxima eficiencia posible (teórica) de una codificación con corrección de errores frente a los niveles de ruido y corrupción de datos. Es un resultado no-constructivista (no dice nada sobre \emph{como} implementar esa codificación).
+
+\caja{0.8}{
+    \emph{Definición}: Sea $E$ un suceso que puede presentarse con probabilidad $P(E)$. Cuando $E$ tiene lugar, decimos que hemos recibido $l(E)$ unidades de información, donde:
+    \begin{center}
+        $\displaystyle l(E) = log_{x}(\frac{1}{P(E)})$
+    \end{center}
+}
+
+Si la probabilidad es muy alta, entonces nos da muy poca información.
+
+Dependiendo de qué $x$ utilicemos (la base del logaritmo), obtendremos una unidad distinta:
+\begin{itemize}
+    \item $(x = 2) \Rightarrow l(E) = log_2(\frac{1}{P(E)})$ \textbf{bits} de información
+    \item $(x = e) \Rightarrow l(E) = ln(\frac{1}{P(E)})$ \textbf{nats} de información.
+    \item $(x = 10) \Rightarrow l(E) = log_{10}(\frac{1}{P(E)})$ \textbf{Hartleys} de información
+\end{itemize}
+
+
+Como caso particular de la primer unidad, notemos que si $P(E) = \frac{1}{2}$, entonces $I(E) = 1$ bit. O sea que \textbf{un bit es la cantidad de información obtenida al especificar dos posibles alternativas equiprobables}.
+
+\subsection{Fuente de memoria nula y Entropía}
+Supongamos que tenemos una fuente que emite una secuencia de símbolos pertenecientes a un alfabeto finito y determinado $S = \{s_1, s_2, .., s_q\}$. Los símbolos emitidos sucesivamente se eligen de acuerdo con una ley fija de probabilidad. Si los símbolos emitidos son estadísticamente independientes, se dice que la fuente $S$ es \textbf{de memoria nula}.
+
+Si consideramos la \textbf{información} suministrada por una fuente de memoria nula, la cantidad \emph{media} de información por símbolo está dado por la fórmula:
+\begin{center}
+    $\displaystyle \sum_S P(s_i) I(s_i)$ bits
+\end{center}
+
+\caja{0.8}{
+    Definimos entonces a la \textbf{entropía} como la \textbf{cantidad media de información por símbolo de una fuente de memoria nula}. La notamos $H(S)$
+    \begin{center}
+        $\displaystyle H(S) = \sum_S P(s_i)\ log(\frac{1}{P(s_i)})$ bits
+    \end{center}
+}
+
+\subsection{Entropía de un mensaje}
+\caja{0.8}{
+    La \textbf{entropía de un mensaje} $X$ (que se representa por $H(X)$) es \textbf{el valor medio ponderado de la cantidad de información de los diversos estados del mensaje}.
+    \begin{center}
+        $\displaystyle H(X) = - \sum p(x) log\ p(x)$
+    \end{center}
+}
+
+Representa una medida de la incertidumbre media acerca de una variable aleatoria y por tanto de la cantidad de información.
+
+\subsubsection{Propiedades de la entropía}
+\begin{itemize}
+    \item La entropía es no negativa.
+    \item La entropía se anula $\Leftrightarrow$ un estado de la variable es 1 y el resto 0.
+    \item La entropía es máxima (mayor incertidumbre del mensaje) cuando todos los  valores posibles de $X$ son equiprobables. Observemos que si hay $n$ estados equiprobables ($P(i) = \frac{1}{n}$), entonces:
+    \begin{center}
+        $\displaystyle H(X) = -\sum_{i=1}^n P(i) = -n \left(\frac{1}{n}\right)\ log_2\left(\frac{1}{n}\right) = - (log_2(1) - log_2(n))$
+    \end{center}
+~\newline
+    \begin{center}
+        $H(x)_{max} = log_2(n)$
+    \end{center}
+\end{itemize}
+
+\underline{Ejemplo}:
+Sea una fuente $S$ con alfabeto $S = {s_1, s_2, s_3}$, tal que $p(s_1) = \frac{1}{2}$ y $p(s_2) = p(s_3) = \frac{1}{4}$. Luego, los símbolos de la \textbf{fuente extendida} $S^2$ serán:
+
+\begin{center}
+    \begin{table}[h]
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \textbf{Simbolos}   & $sigma_1$ & $sigma_2$ & $sigma_3$ & \multicolumn{1}{c|}{$sigma_4$} & $sigma_5$ & $sigma_6$ & $sigma_7$ & $sigma_8$ & $sigma_9$ \\ \hline
+            \textbf{Secuencias} & $s_1s_1$  & $s_1s_2$  & $s_1s_3$  & $s_2s_1$                       & $s_2s_2$  & $s_2s_3$  & $s_3s_1$  & $s_3s_2$  & $s_3s_3$  \\ \hline
+            $P(\sigma_i)$       & 1/4       & 1/8       & 1/8       & 1/8                            & 1/16      & 1/16      & 1/8       & 1/16      & 1/16      \\ \hline
+        \end{tabular}
+    \end{table}
+\end{center}
+
+Luego,
+
+\begin{eqnarray*}
+    & \displaystyle H(S^2) & = \sum_{S^2} P(\sigma_i)\ log_2\left(\frac{1}{P(\sigma_i)}\right)\\
+    & & = \frac{1}{4} log_2(4) + 4\times \frac{1}{8} log_2(8) + 4\times \frac{1}{16} log_2(16)\\
+    & & = 3 \text{ bits/símbolo}
+\end{eqnarray*}
+
+\subsection{Fuente de Markov}
+\caja{0.8}{
+    Definimos una una \textbf{fuente de Markov de orden $m$} como una fuente en la que \textbf{la probabilidad de un símbolo cualquiera viene determinada por los $m$ símbolos que lo preceden}.
+}
+
+En cualquier momento, por lo tanto, definiremos el \emph{estado} de la fuente de Markov de orden $m$ por los $m$ símbolos precedentes. Puesto que existen $q$ símbolos, una fuente de Markov admitirá $q^m$ estados posibles.
+
+Para visualizar una fuente de Markov se puede usar un diagrama de estados de $q^m$ nodos (estados). Ejemplo:
+\ig{0.4}{stateMachineMarkov.png}
+
+%NO ENTIENDO LO DE CODIGOS INSTANTANEOS => DIAPO 3.16$ //MJSDO
+%FIJARSE SI ESTO NO ES REDUNDANTE
+\subsection{Codificación}
+Se define \textbf{codificar} como establecer una correspondencia entre los símbolos de una fuente y los símbolos del alfabeto de un código. Es un proceso mediante el cual podemos lograr una representación más eficiente de la información (eliminando redundancia).
+
+\subsubsection{Condición de prefijos}
+Para que un código sea \textbf{instantáneo} es condición \emph{necesaria} y \emph{suficiente} que sus palabras cumplan con la \textbf{condición de los prefijos}: no debe existir una palabra que sea prefijo de otra de mayor longitud.
+
+\subsubsection{Códigos eficientes}
+Una forma de lograr códigos eficientes es asignar las palabras más cortas a los símbolos más probables. De este modo se baja la longitud media de un código:
+\begin{center}
+    $\displaystyle \sum p_i\ l_i$
+\end{center}
+donde
+\begin{itemize}
+    \item $l_i$: longitud de la palabra codificada del mensaje $m_i$.
+    \item $r$: cantidad de símbolos del alfabeto del código.
+    \item $log(r)$: cantidad promedio máxima de información de un símbolo.
+\end{itemize}
+
+De este modo, podemos calcular la \textbf{eficiencia} de una codificación como:
+
+\begin{center}
+    $\eta = \displaystyle \frac{H(S)}{L\ log(r)}$
+\end{center}
+
+Observemos que $L\ log(r) \geq H(S)$, con lo cual $\eta \leq 1$.
+
+Se dice que un codificador es \textbf{óptimo} si para codificar un mensaje $X$ usa el menor número posible de bits.
+
+
+\subsection{Perturbaciones en la transmisión}
+Se dice que hay una \textbf{perturbación} en una transmisión cuando la señal recibida difiere de la emitida. Una perturbación puede ser analógica (degradación de la calidad de la señal) o digital (errores de bits) y puede ser causada por:
+
+\begin{itemize}
+    \item \textbf{Atenuación y distorsión}: la intensidad de la señal disminuye con la distancia (depende del medio). La señal recibida debe ser suficiente para que se la detecte y el ruido no interfiera.
+    \item \textbf{Distorsión de retardo}: las componentes de frecuencia llegan al receptor en distintos instantes de tiempo, originando desplazamientos de fase entre las distintas frecuencias.
+    \begin{itemize}
+        \item Sólo aplica a medios guiados.
+        \item La velocidad de propagación varía con la frecuencia.
+    \end{itemize}
+    \item \textbf{Ruido}: señales adicionales insertadas entre el transmisor y el receptor. Puede ser de varios tipos:
+    \begin{itemize}
+        \item Térmico: se debe a agitación térmica de electrones.
+        \item Intermodulación: se produce por falta de linealidad.
+        \item Diafonía: una señal de una línea se mete en otra.
+        \item Impulsiva: impulsos irregulares o picos de corta duración pero mucha intensidad.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Capacidad del canal}
+\begin{itemize}
+    \item \textbf{Velocidad}: bits/segundo.
+    \item \textbf{Ancho de banda}: ciclos/segundo (hertz).
+\end{itemize}
+
+La ley de \textbf{capacidad de Shannon} establece que para un cierto nivel de ruido, a mayor velocidad (ergo, menor período de un bit) mayor es la tasa de error (porque se pueden corromper 2 bits en el tiempo en que antes se corrompía uno). Formalmente, al relación señal/ruido se calcula como:
+
+\begin{center}
+    $SNR_{dB} = 10\times log(SNR) = 10\times log\left(\displaystyle\frac{\text{Potencia señal}}{\text{Potencia Ruido}}\right)$
+\end{center}
+
+Sin embargo, la cantidad de niveles debe mantenerse: $M \leq \displaystyle \sqrt{1+SNR}$
+
+En principio, si se aumenta el ancho de banda ($B$) y la potencia de la señal ($S$), aumenta la velocidad binaria ($C$). Sim embargo,
+\begin{itemize}
+    \item Aumentar el ancho de banda aumenta el ruido.
+    \item Aumentar la potencia impacta en las ni linealidades y el ruido de la intermodulación.
+\end{itemize}
+
+Luego, la velocidad binaria teórica máxima está dada por la fórmula:
+\begin{center}
+    $C_{max}(bps) = B(Hz)\times log_2(1+SNR)$
+\end{center}
+
+\subsection{Ancho de banda de Nyquist}
+\caja{0.8}{
+    Definimos el \textbf{ancho de banda de Nyquist} como la \textbf{capacidad teórica máxima de un canal}:
+    \begin{center}
+        Para $M$ niveles sin ruido $\Rightarrow C(bps) = 2B(Hz)\ log_2(M)$
+    \end{center}
+}
+
+% FALTA TODO LO DE FOURIER //MJSDO
+
+
+\subsubsection {Modulación}
+La \textbf{modulación} es proceso de variación de cierta característica de una señal (llamada \emph{portadora}) de acuerdo con la señal del mensaje (llamda \emph{moduladora}).
+
+Existen 4 tipos de modulación:
+\begin{itemize}
+    \item Moduladora Analógica / Portadora Analógica: usada para las radios AM/FM.
+    \item Moduladora Analógica / Portadora Digital.
+    \item Moduladora Digital / Portadora Analógica: se usa para la transmisión de datos digitales a través de la red de telefonía (que fue disñada para transmitir señales analógicas en el rango de frecuencias de voz (\emph{300-3400Hz})).
+    \item Moduladora Digital / Portadora Digital: los datos binarios se transmiten codificando cada bit de datos en cada elemento de señal. Evita problema de sincronismos.
+\end{itemize}
+
+
+\subsubsubsection{Moduladora Digital / Portadora Analógica}
+Hay distintas técnicas:
+\begin{itemize}
+    \item Desplazamiento de Amplitud (\texttt{ASK}): los valores binarios se representan mediante dos amplitudes de la onda portadora.
+    \begin{center}
+        $S(t) = \begin{cases}
+                    A\times cos(2\pi f_c t)\\
+                    0
+                \end{cases}$
+    \end{center}
+    \ig{0.5}{ASK.png}
+
+
+    \item Desplazamiento de Frecuencia (\texttt{FSK}): los valores binarios se representan mediante dos frecuencias de la onda portadora.
+     \begin{center}
+        $S(t) = \begin{cases}
+                    A\times cos(2\pi f_1 t)\\
+                    A\times cos(2\pi f_2 t)
+                \end{cases}$
+    \end{center}
+    \ig{0.5}{FSK.png}
+
+    \item Desplazamiento de Fase (\texttt{PSK}).
+    \begin{center}
+        $S(t) = \begin{cases}
+                    A\times cos(2\pi f_c t + \pi)\\
+                    A\times cos(2\pi f_c t)
+                \end{cases}$
+    \end{center}
+    \ig{0.5}{PSK.png}
+    \item Mixtas.
+\end{itemize}
+
+\subsubsubsection{Definiciones}
+\begin{itemize}
+    \item \textbf{Velocidad de modulación}: se define como el número de cambios de señal por unidad de tiempo. Se expresa en \emph{baudios} (símbolos por segundo).
+    \item \textbf{Velocidad de transmisión}: equivale a la velocidad de modulación multiplicada por el número de bits representados por muestra.
+\end{itemize}
+
+Observemos que podemos aumentar la velocida de transmisión representando más de un bit con cada elemento de la señal. Por ejemplo:
+\begin{center}
+    $S(t) = \begin{cases}
+        A cos(2 \pi f_c t + 45)\ \hspace{1.1cm}\Rightarrow\hspace{1cm}00\\
+        A cos(2 \pi f_c t + 135)\hspace{1cm}\Rightarrow\hspace{1cm}01\\
+        A cos(2 \pi f_c t + 225)\hspace{1cm}\Rightarrow\hspace{1cm}10\\
+        A cos(2 \pi f_c t + 315)\hspace{1cm}\Rightarrow\hspace{1cm}11
+    \end{cases}$
+\end{center}
+
+\subsubsection{Codificación}
+La \textbf{digitalización} es el proceso de conversión de señales analógicas en digitales. Los dispositivos que la llevan a cabo se llaman \emph{codec}
+
+% Codificación digital
+% Se entiende por Codificación en el contexto de la Ingeniería al proceso de conversión de un sistema de datos de origen a otro sistema de datos de destino. De ello se desprende como corolario que la información contenida en esos datos resultantes deberá ser equivalente a la información de origen. Un modo sencillo de entender el concepto es aplicar el paradigma de la traducción entre idiomas en el ejemplo siguiente: home = hogar. Podemos entender que hemos cambiado una información de un sistema (inglés) a otro sistema (español) y que esencialmente la información sigue siendo la misma. La razón de la codificación está justificada por las operaciones que se necesiten realizar con posterioridad. En el ejemplo anterior para hacer entendible a una audiencia hispana un texto redactado en inglés es convertido al español.
+
+% En ese contexto la codificación digital consiste en la traducción de los valores de tensión eléctrica analógicos que ya han sido cuantificados (ponderados) al sistema binario, mediante códigos preestablecidos. La señal analógica va a quedar transformada en un tren de impulsos de señal digital (sucesión de ceros y unos). Esta traducción es el último de los procesos que tiene lugar durante la conversión analógica-digital. El resultado es un sistema binario que está basado en el álgebra de Boole.
+
+También existen distintas técnicas:
+\begin{itemize}
+    \item \textbf{NRZ}: consiste en usar una tensión negativa para un 1 y una positiva para un 0.
+    \item \textbf{NRZI}: los datos se codifican mediante la presencia o ausencia de una transición al principio del intervalo de un 1.
+    \item \textbf{Manchester}: se codifica mediante una transición en la mitad del intervalo de duración del bit: de bajo a alto representa un 1 y de alto a bajo un 0.
+    \item \textbf{Manchester diferencial}: la codificacón de un 0 se representa por la presencia de una transición al principio del intervalo del bit y un 1 mediante la ausencia.
+    \item \textbf{Bipolar-AMI}: un 0 se representa por la ausencia de señal y un 1 se repreesnta mediante un pulso positivo seguido de uno negativo.
+\end{itemize}
+
+Existen codificaciones \textbf{de alta densidad}, en las que se reemplazan secuencias de bits que dan lugar a niveles de tensión constante por otras que proporciones transiciones. Esto sirve para mantener la sincronización (puede ser dificil distinguir 18 intervalos de no tensión de 19. Si alterna es más fácil). El receptor debe identificar la secuencia reemplazada y sustituirla por la original.
+
+
+
+
+
+\section{Nivel de Enlace}
+\subsection{Conceptos}
+\begin{itemize}
+    \item El nivel de enlace debe proveer un enlace confiable para comunicación punto a punto. Esto involucra dos aspectos:
+    \begin{itemize}
+        \item \textbf{Ruido impulsivo}: lo que se recibe puede no ser lo mismo que lo que se envió. ¿Qué hacemos con los errores?
+        \item \textbf{Desorden}: los paquetes deben llegar en el mismo orden en el que fueron enviados.
+    \end{itemize}
+    \item \textbf{Framing}: encapsular los bits en \textbf{\emph{frames}} agregando información de control. Estos paquetes funcionan como unidades.
+    \item ¿Cómo delimitamos los frames en la transmisión? Hay varias formas:
+    \begin{itemize}
+        \item Largo fijo.
+        \item Largo informado en el encabezado.
+        \item Delimitadores con \emph{bit-stuffing}.
+        \item Violación de código: mandar una señal no especificada (por ejemplo, si estoy usando 5 volt para codificar el 0 y -5 para el 1, puedo mandar 0 volt).
+    \end{itemize}
+\end{itemize}
+
+Existen tres tipos de servicio que el nivel de enlace provee:
+\begin{itemize}
+    \item \textbf{Sin conexión y sin reconocimiento}: los datos se envían sin necesidad de saber si llegan bien.
+    \item \textbf{Sin conexión y con reconocimiento}: los datos se envían y se asegura la correcta recepción mediante el aviso explícito (\texttt{ACK}).
+    \item \textbf{Orientado a conexión}: además de asegurar la recepción correcta de los datos, se mantiene una conexión (\emph{sesión}).
+\end{itemize}
+
+\subsection{Corrección y detección de errores}
+Supongamos que tenemos un mensaje de $m$ bits de longitud y agregamos $r$ bits de redundancia. Sea $n = r + m$ la longitud del \emph{codeword} resultante.
+
+Se define la \textbf{distancia de Hamming} ($d$) como la cantidad de bits que deben ser flipeados para transformar una palabra en otra (cuanto mayor sea esta diferencia, menor es la posibilidad de que un código válido se transforme en otro código válido por una serie de errores).
+
+Llamemos $e$ a la cantidad de errores introducidos durante la transmisión.
+\begin{itemize}
+    \item Si $e + 1 \leq d \Rightarrow$ se puede \textbf{detectar} el error.
+    \item Si $2e + 1 \leq d \Rightarrow$ se puede \textbf{corregir} el error.
+\end{itemize}
+
+\subsection{Retransmisiones}
+Cuando se detecta un error, pero no se puede corregir, es necesario que le emisor retransmita el paquete. Hay dos tipos de retransmisiones:
+\begin{itemize}
+    \item Explícitas: involucra mensajes de control específicos para pedir un datos nuevamente.
+    \item Implícitas: el receptor descarta el mensaje y cuando ocurra un time-out se asume que el dato se perdió y el emisor lo reenvía.
+\end{itemize}
+
+\subsubsection{Stop and wait}
+\textbf{Stop and wait} es un protocolo de transmisión de nivel de enlace que garantiza que la información no se pierda (por paquetes \emph{dropeados}) y llegue en orden. Es un caso particular del \emph{\textbf{sliding window protocol}} (con ambas ventanas de tamaño 1): el emisor envía un paquete por vez. Luego espera hasta que:
+\begin{itemize}
+    \item Le llegue el \texttt{ACK} confirmando que el receptor lo recibió bien.
+    \item Pasa el \emph{timeout} tras el que se considera que el mensaje se perdió y el emisor lo reenvía.
+\end{itemize}
+
+Observemos que de acá surge la necesidad de tener numerados los frames. El receptor debe poder identificar cada uno.
+
+\ig{0.4}{StopAndWait.png}
+
+
+\subsubsection{Eficiencia}
+Se mide la \textbf{eficiencia} de una transmisión en función de la cantidad de tiempo que uno se pasa bloqueado.
+\begin{center}
+    $\displaystyle \text{Eficiencia }= \frac{T_{tx}}{RTT}$ %//MJSDEBUG WHAAAT????
+\end{center}
+
+\subsubsection{Capacidad}
+La \textbf{capacidad} de un canal se obtiene mediante el producto:
+\begin{center}
+    $\displaystyle Bandwith \times delay$
+\end{center}
+
+Este producto entre la velocidad de transmisión y el \emph{delay} nos da \textbf{la cantidad de bits que entran en un canal}. Para aprovechar mejor, el canal debería estar siempre lo más lleno posible.
+
+
+\subsection{Sliding Window}
+Observemos que el protocolo \emph{stop and wait} no llena demasiado el canal. Es por esto que se inventó un protocolo que, si bien es más complejo, tiene mucha mayor capacidad: \textbf{Sliding Window}.
+
+\ig{0.5}{SAWvsSW.png}
+
+
+El protocolo sliding window (\emph{de ventana deslizante}) se utiliza para garantizar la entreg de paquetes confiable y en orden.
+
+Conceptualmente a cada paquete se la asigna un número de secuencia, que el receptor utiliza para verificar que estén todos y reordenarlos. Se acota la cantidad de paquetes que pueden enviarse o recibirse en un momento dado. La cantidad de paquetes que el emisor puede mandar ``seguidos'' se conoce como \textbf{SWS} (\emph{sender window size}) y se calcula de la siguiente manera:
+
+\begin{center}
+    $SWS = V_{tx}\times \displaystyle \frac{RTT}{|Frame|}$
+\end{center}
+
+donde
+\begin{itemize}
+    \item $RTT = 2*delay$ (Round trip time): el tiempo que le toma a un paquete ir y volver por el caño.
+    \item $|Frame|$ es el tamaño del paquete.
+\end{itemize}
+
+
+Hay dos opciones para implementar este protocolo: con o sin \textbf{selective ack}.
+
+\subsubsection{Sin Selective ACK}
+Sliding window sin selective ACK es más sencillo de implementar y requiere menos capacidad de almacenamiento en los nodos (particularmente en el receptor).
+
+Como el receptor no hace \emph{buffering}, simplemente manda \texttt{ACK} cuando recibe un frame correctamente. Si ocurre un error, descarta ese frame y todos los siguientes hasta que el emisor vuelva a enviar ese frame.
+
+El emisor manda paquetes mientras no superen su \texttt{SWS} y va contando los \texttt{ACK} que recibe. Si en algún momento pasa el \emph{timeout} de un paquete lo reenvía y sigue la secuencia desde ese paquete.
+
+La desventaja enorme de esta técnica es que se deben reenviar todos los paquetes que ya se habían enviado (posiblemente en forma correcta) sólo porque se perdió uno anterior.
+
+\ig{0.6}{sinSelectiveACK.png}
+
+
+\subsubsection{Con Selective ACK}
+Usando selective \texttt{ACK} se puede mitigar este problema para minimizar la cantidad de retransmisiones necesarias, pero a costa de complejizar el protocolo y necesitar más capacidad de almacenamiento en ambos nodos. Particularmente en el receptor es necesario agregar un \emph{buffer}.
+
+\ig{0.65}{conSelectiveACK.png}
+
+Se agrega el concepto de ventana también para el receptor \textbf{RWS} (reciever window size). No usar selective \texttt{ACK} se puede considerar como $RWS = 1$.
+
+Si se usa selective \texttt{ACK}, entonces $RWS = SWS$ (en caso óptimo. Si hay problemas de buffering o cosas así, puede ser menor $1\leq RWS \leq SWS$).
+
+~\newline
+
+El emisor se mantiene las siguientes variables:
+\begin{itemize}
+    \item $n_t$: próximo número de sequencia a enviar.
+    \item $w_t$: tamaño de la ventana del emisor.
+    \item $n_a$: número más alto de paquete que el receptor confirmó recibir.
+\end{itemize}
+
+El receptor se mantiene las siguientes variables:
+\begin{itemize}
+    \item $n_r$: primer paquete que todavía no recibí.
+    \item $w_r$: tamaño de la ventana del receptor.
+    \item $n_s$: 1 + paquete más grande que recibí.
+\end{itemize}
+
+Observemos que:
+\begin{itemize}
+    \item Todos los paquetes con número menor que $n_r$ ya fueron recibidos.
+    \item Todos los paquetes con número mayor que $n_s$ todavía no fueron recibidos.
+    \item Algunos paquetes con número entre $n_r$ y $n_s$ fueron recibidos y otros no.
+    \item El emisor sabe que el receptor recibió todos los paquetes con número menor que $n_a$.
+    \item Pero no está seguro los que están entre $n_a$ y $n_s$.
+    \item Siempre se mantiene el orden $n_a \leq n_r \leq n_s \leq n_t \leq n_a + w_t$.
+    \begin{itemize}
+        \item $n_a \leq n_r$: el ACK más alto recibido por el transmisor no puede ser mayor al primer paquete no recibido.
+        \item $n_r \leq n_s$.
+        \item $n_s \leq n_t$: no pude haber recibido un paquete más alto que el más alto enviado.
+        \item $n_t \leq n_a+w_t$: el paquete más alto enviado está limitado por el ACK más alto recibido y la ventana de transmisión del emisor.
+    \end{itemize}
+\end{itemize}
+
+
+\subsection{LAN Switching}
+En las redes \textbf{de acceso compartido} (o \emph{LAN Switching}) se comparte un sólo medio físico para varios hosts, por lo que surge la necesidad de usar algún esquema de direccionamiento y control de acceso.
+
+Los sistemas en los cuales varios usuarios comparten un canal común de modo tal que pueden ocurrir conflictos se conocen como \textbf{sistemas de contención}. Ejemplo de estos son:
+
+\begin{itemize}
+    \item Ethernet (802.3).
+    \item Wifi (802.11).
+    \item Token Ring (802.5).
+\end{itemize}
+
+Para disminuir la cantidad de colisiones en un medio compartido se utilizan dos conceptos:
+\begin{itemize}
+    \item Demora aleatoria: se asume que la pérdida de cualquier trama se debe a una colisión con otra. Luego, los emisores esperan hasta volver a enviar una cantidad aleatoria de tiempo.
+    \item Exponential backoff: cada vez que una trama colisiona, el emisor espera el doble de tiempo de lo que esperó la última vez (para la misma trama), aunque también incluye un componente aleatorio. De esta forma se minimizan (estadísticamente) las colisiones.
+\end{itemize}
+
+\subsection{CSMA}
+\textbf{CSMA} (\emph{Carrier Sense Multiple Access}) es un método de control de acceso probabilístico en el que los nodos verifican si el canal compartido está ocupado antes de comenzar su propia transmisión.
+
+Notemos que \texttt{CSMA} no puede evitar completamente las colisiones (el retardo de propagación significa que los dos nodos pueden no escuchar la transmisión de cada uno). Es un método probabilístico.
+
+Viene en dos sabores: \texttt{CSMA}/\textbf{CD} (\emph{collision detection}) y \texttt{CSMA}/\textbf{CA} (\emph{collision avoidance}).
+
+\subsubsection{CSMA/CD}
+
+\emph{Collision detection} es la estrategia utilizada por \texttt{802.3} (\emph{Ethernet}). Esto se debe a que tiene la capacidad de escuchar el canal mientras transmite por él (por ser \emph{full duplex}).
+
+ Utiliza dos estrategias. En primer lugar, el adaptador no transmite si detecta que algún otro adaptado está transmitiendo. A esto se le llama \textbf{detección de portadora}. Por otro lado, si el adaptador detecta que otro adaptador está transmitiendo mientras él mismo estaba transmitiendo, aborta la transmisión y envía la señal de \emph{Jam}. A esto se le llama \textbf{detección de colisión}.
+
+Cualquiera sea estos dos motivos, el adaptador espera un tiempo aleatorio con \emph{exponential backoff} para volver a intentar la retransmisión.
+
+La eficiencia de \texttt{CSMA/CD} está dada por la fórmula:
+\begin{center}
+    $\text{Eficiencia} = \displaystyle \frac{1}{1+5\frac{t_{prop}}{t_{trans}}}$
+\end{center}
+donde
+\begin{itemize}
+    \item $t_{prop}$: tiempo máximo para propagarse entre dos nodos de la \texttt{LAN}.
+    \item $t_{trans}$: tiempo de transmitir el marco de tamaño máximo.
+\end{itemize}
+
+Observemos que esta noción de eficiencia tiende a 1 cuando $t_{prop} \rightarrow 0$ o $t_{trans} \rightarrow \infty$.
+
+
+\partir{0.5}{0.5}{
+\textbf{\underline{Ventajas}}:
+    \begin{itemize}
+        \item La detección de colisiones en redes LAN cableadas es fácil.
+        \item El tiempo medio necesario para detectar una colisión es relativamente bajo.
+        \item Puede ser empleado en sistemas de control de procesos contínuos si la carga de tráfico de la red es baja (inferior al 20 \%).
+        \item Ofrece un rendimiento mayor en especial cuando existen pocas colisiones.
+    \end{itemize}
+}{
+\textbf{\underline{Desventajas}}:
+    \begin{itemize}
+        \item No es posible garantizar un tiempo máximo finito para el acceso de las tramas al canal de comunicación (problemas con real-time).
+        \item No se puede usar con redes \emph{half-duplex}, como \texttt{802.11} (\emph{wifi}) (mientras una estación envía información es incapaz de escuchar el tráfico existente).
+        \item Problemática en redes inalámbricas (problema de la terminal oculta).
+    \end{itemize}
+}
+
+\subsubsection{CSMA/CA}
+% A diferencia de lo que ocurre con \texttt{CSMA/CD}, la técnica de \emph{collision avoidance} involucra que los nodos explícitamente anuncien su intención de utilizar el canal con el fin de minimizar la probabilidad de colisiones.
+
+\emph{Collision Avoidance} es la estratégia usada por \texttt{802.11} (\emph{Wifi}). Debido a que la mayor parte de las redes son \emph{half-duplex}, no tienen la capacidad de escuchar a medida que transmiten, con lo que es necesaria una nueva estrategia.
+
+Antes de transmitir, una estación debe determinar el estado del medio. Si el medio está libre, el emisor realiza una espera adicional llamada \textbf{IFS} (\emph{inter frame spacing}). El objetivo de este espaciado es evitar la colisión en el caso de que el medio hubiera estado siendo usado, pero todavía fuera del \emph{threshold} de detección
+%//MJSDEBUG FIJATE SI THRESHOLD SE ESCRIBE ASÍ.
+
+Si, en cambio el canal está haciendo ocupado (o se ocupa durante el \texttt{IFS}) se procede a hacer \emph{exponential backoff}, eligiendo una \textbf{CW} (congestion window).
+
+%//MJSDO AGREGAR VENTAJAS Y DESVENTAJAS DE ESTO.
+
+
+\subsection{Ethernet}
+Tiene los siguientes tipos de cables:
+\begin{itemize}
+    \item 10base2 $\Rightarrow$ Coaxil (10Mbps, 200m)
+    \item 10base5 $\Rightarrow$ Coaxil (10Mbps, 500m)
+    \item 10baseT $\Rightarrow$ Par trensado (10Mbps, 100m)
+\end{itemize}
+
+Se intenta que los tramos no sean más de 500 metros para que disminuya el riesgo de colisiones y la atenuación de la señal.
+
+\subsubsection{Frame format}
+El frame de ethernet respeta el siguiente formato:
+\ig{0.5}{ethernetFrame.png}
+
+donde
+\begin{itemize}
+    \item \textbf{Preámbulo}: permite a los dispositivos fácilmente detectar un frame entrante.
+    \item \textbf{Dest addr}: dirección MAC del destinatario.
+    \item \textbf{Src addr}: dirección MAC del emisor.
+    \item \textbf{Type}: Tipo de paquete (\texttt{ARP}, etc).
+    \item \textbf{Body}: Contenido del mensaje.
+    \item \textbf{CRC}: validación del paquete.
+\end{itemize}
+
+~\newline
+
+Dado que se comparte el medio, todos los nodos van a recibir los paquetes que todos envíen. Es necesario establecer un criterio de filtrado para que cada host pueda determinar que paquetes le corresponden. Luego, un host de ethernet sólo va a procesar paquetes en caso de que:
+\begin{itemize}
+    \item El destino del paquete sea ese host.
+    \item El destino del paquete sea ``broadcast'' (FF:FF:FF:FF:FF:FF).
+    \item El destino del paquete sea una dirección ``multicast'' a la que está suscripto.
+    \item El host esté en modo promiscuo (agarra todos los frames).
+\end{itemize}
+
+~\newline
+
+Las tecnologías inalámbricas tienen numerosos inconvenientes:
+\begin{itemize}
+    \item Pierden intensidad con la distancia.
+    \item Tienen más fuentes de ruido que las guiadas (y más impredecibles).
+    \item Privacidad de los datos.
+    \item Licenciado de bandas.
+\end{itemize}
+
+~\newline
+
+\textbf{Wi-Fi} (\emph{Wireless-Friendly}) es un nombre para una serie de estándares definidos por la \texttt{IEEE} para comunicación por redes wireless:
+\begin{itemize}
+    \item 802.11.\textbf{b} $\Rightarrow$ 11 Mbps.
+    \item 802.11.\textbf{a} $\Rightarrow$ 54 Mbps.
+    \item 802.11.\textbf{g} $\Rightarrow$ 54 Mbps.
+    \item 802.11.\textbf{n} $\Rightarrow$ 100 Mbps (600 Mbps con \texttt{MIMO} (\emph{multiple input multiple output antennas})).
+    \item 802.11.\textbf{ac} $\Rightarrow$ 1 Gbps.
+\end{itemize}
+
+El modelo de referencia de 802.11 es:
+\ig{0.3}{80211.png}
+
+Como se ve, en su nivel físico hay 4 alternativas de transmisión:
+\begin{itemize}
+    \item \textbf{Infrarrojo}: hoy en día muy poco usado por lento y poca distancia %Aguante la Palm V!!!!
+    \item \textbf{FHSS} (\emph{Frequency Hopping Spread Spectrum}): sistema de bajo rendimiento, también muy poco usado.
+    \item \textbf{DSSS} (\emph{Direct Sequence Spread Spectrum}).
+    \item \textbf{OFDM} (\emph{Orthogonal Frequency Division Multiplexing}). %AVERIGUAR MAS //MJSDEBUG
+\end{itemize}
+
+\subsubsubsection{Configuraciones típicas de la infraestructura}
+\begin{itemize}
+    \item \textbf{BSS} (\emph{Basic Service Set}): un \emph{access point} provee la funcion de un puente (\emph{bridge}) local para \texttt{BSS}. Todas las estaciones se comunican con con el \emph{access point} y no directamente entre ellas. Las tramas son retransmitidas entre las estaciones Wi-Fi por el \emph{access point}.
+    \item \textbf{ESS} (\emph{Extended Service Set}): un \texttt{ESS} es un conjunto de \texttt{BSS}s, donde los access points se comunican entre ellos para forwardear el tráfico desde una \texttt{BSS} a otra.
+    \item \textbf{AdHoc}: las estaciones inalámbricas se comunican directamente entre sí. Cada estación puede o no ser capaz de comunicarse con otra debido a las limitaciones rango.
+\end{itemize}
+
+\subsubsubsection{Problema de la estación oculta}
+Se conoce al \textbf{problema de la estación oculta} a la situación en la que una estación no puede detectar a un competidor potencial por el medio porque está demasiado lejos.
+
+\ig{0.4}{estacionOculta.png}
+Supongamos que ocurre cuando $A$ transmite a $B$. Si $C$ detecta el medio no escuchará a $A$ porque está fuera de su alcance, y por lo tanto deducirá erróneamente que puede transmitir. Si $C$ comienza a transmitir, interferirá en $B$ eliminando la trama de $A$.
+
+
+\subsubsubsection{Problema de la estación expuesta}
+Ahora consideremos la situación opuesta: $B$ transmite a $A$. Si $C$ detecta el medio, escuchará una transmisión y concluirá que no puede enviar a $D$. Cuando de hecho tal transmisión causaría una mala recepción solo en la zona entre $B$ y $C$, en la que no está localizado ninguno de los receptores pretendidos. Esta situación se conoce como \textbf{problema de estación expuesta}.
+
+\ig{0.4}{estacionExpuesta.png}
+
+~\newline
+
+Ambos dos problemas se dan porque antes de comenzar una transmisión lo que se quiere saber si hay o no actividad en las cercanías \textbf{del receptor} y no alrededor del transmisor.
+Estos dos problemas son parte de la causa por la que no es posible implementar \emph{collision detection} es una red wireless. El otro motivo es económico, se necesitan nodos \emph{full-duplex}, que los hace más caro.
+
+\subsubsection{MACA y MACAW}
+Dado que las técnicas de \texttt{CSMA} no funcionan bien en medios inalámbricos, se desarrollaron otras técnicas.
+
+\subsubsubsection{MACA} (\emph{Múltiple Access Collision Avoidance}) se usó como base para el 802.11. El concepto en que se basa es que, el transmisor estimula al receptor a enviar una trama corta, de manera que las estaciones cercanas puedan detectar esta transmisión y eviten ellas mismas de hacerlo durante la trama siguiente de datos.
+
+\underline{Ejemplo}: $A$ comienza por enviar una trama \texttt{RTS} (\emph{Request to Send}) a $B$. Esta trama corta (30 bytes) contiene la longitud de trama de datos que seguirá posteriormente. Entonces $B$ contesta con una trama \texttt{CTS} (\emph{Clear to send}). La trama contiene la longitud de los datos (copiado de la trama \texttt{RTS}). $A$ la recepción de la trama \texttt{CTS}, $A$ comienza a transmitir.
+
+Cualquier estación que escuche el \texttt{RTS} está lo suficientemente cerca de $A$ y debe permanecer en silencio durante el tiempo suficiente para que el \texttt{CTS} se transmita de regreso a A sin conflicto. Cualquier estación que escuche el \texttt{CTS}evidentemente está lo suficientemente cerca de $B$ y debe permanecer en silencio durante el siguiente tiempo de transmisión de datos, cuya longitud puede determinar examinando la trama \texttt{CTS}.
+
+Nuevamente esto no garantiza la ausencia de colisiones, pero reduce su probabilidad (por ejemplo $B$ y $C$ pueden intentar enviar una trama \texttt{RTS} al mismo tiempo).
+
+\subsubsubsection{MACAW} es una mejora de \texttt{MACA} que agrega los siguientes cambios:
+\begin{itemize}
+    \item Agrega un ACK tras cada trama de datos exitosa.
+    \item Agrega detección de portadora (CSMA/CA).
+    \item Ejecuta el algoritmo de \emph{exponential backoff} por separado para cada flujo de datos (no por estación).
+    \item Agrega un mecanismo para que las estaciones intercambien información de congestionamiento.
+\end{itemize}
+
+\subsubsection{802.11 MAC}
+En una wireless LAN no podemos usar los mecanismos vistos de \emph{collision detection} porque:
+\begin{itemize}
+    \item Se necesita una radio \emph{full duplex}.
+    \item \emph{Hidden terminal problem}.
+    \item \emph{Exposed terminal problem}.
+\end{itemize}
+
+Es por esto que la IEEE 802.11 MAC define su propio método de acceso al medio. Involucra dos métodos:
+
+\begin{itemize}
+    \item \textbf{DCF} (\emph{Distributed Coordination Function}): es el mecanismo base.
+    \item \textbf{PCF} (\emph{Point Coordination Function}): opcional. Permite agregar prioridades (\texttt{PIFS} en vez de \texttt{DIFS})
+\end{itemize}
+
+
+\subsubsubsection{DCF}
+
+\textbf{DCF} (\emph{Distributed Coordination Function}) está basado en \texttt{CSMA/CA} con rotación de \emph{backoff window}. Consiste en la política de \emph{``listen before talk''}.
+
+Cuando el emisor quiere transmitir, escucha el canal. Si lo detecta vacio por DIFS segundos, transmite la trama completa. Si detecta que el canal está ocupado, entonces hace \emph{backoff} binario. El receptor, una vez que recibe la trama hace lo mismo para enviar el \texttt{ACK}.
+
+~\newline
+
+Esta técnica tiene el problema de que desperdicia demasiasdo ancho de banda y no resuelve el problema de la terminal oculta.
+
+
+Para solucionar eso se agrega el intercambio \textbf{RTS-CTS}:
+\begin{itemize}
+    \item Un nodo que quiere transmitir escucha el canal durante un determinado período de tiempo (\textbf{DIFS}).
+    \item Si está ocupado, hace \emph{backoff} binario.
+    \item Si está libre, envía un \textbf{RTS} (\emph{Request To Send}).
+    \item El nodo de destino cuando recibe un \textbf{RTS} espera otro período de tiempo (\textbf{SIFS}).
+    \item Si el canal sigue libre, le responde con un \textbf{CTS} (\emph{Clear To Send}).
+    \item Si el canal no está libre (porque, por ejemplo, está recibiendo datos de una estación oculta para el emisor) le envía un \textbf{RxBusy}.
+    \item Una vez que el emisor recibe la \textbf{CTS}, también debe esperar \textbf{SIFS} para poder comenzar a transmitir.
+    \item El receptor también debe esperar \textbf{SIFS} para enviar el \texttt{ACK}.
+\end{itemize}
+
+Los paquetes \texttt{RTS} pueden involucrar el tamaño de la transmisión, que el receptor devuelve en el \texttt{CTS} (informando a las terminales ocultas que no manden por ese tiempo).
+\ig{0.4}{RTSCTS.png}
+
+\subsubsection{Frame Format en 802.11}
+\ig{0.5}{80211frameFormat.png}
+
+\begin{itemize}
+    \item Utiliza direcciones de 48 bits.
+    \item Utiliza un CRC de 32 bits para validar.
+    \item Dentro del campo de control:
+    \begin{itemize}
+        \item Hay un campo que indica si es traza, \texttt{CTS} o \texttt{RTS}.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Redes de espectro disperso}
+Existen distintos métodos de transmisión:
+
+\subsubsubsection{FHSS}
+
+\textbf{FHSS} (\emph{Frequency Hopping Spread Spectrum}) es un método de transmisión de señales que cambia rápidamente entre canales de frecuencia, usando una secuencia pseudoaleatoria compartida entre emisor y receptor.
+
+~\newline
+\partir{0.5}{0.5}{
+\textbf{\underline{Ventajas}}:
+    \begin{itemize}
+        \item Es resistente a interferencias de onda angosta.
+        \item Es segura: es difícil de detectar porque aparenta ser un incremento en el ruido de fondo. Si no se conoce la secuencia pseudoaleatoria es difícil de interpretar aún si se pincharon todos los canales.
+        \item Puede compartir bandas de frecuencia con otras transmisiones ofreciendo mínima interferencia.
+    \end{itemize}
+}{
+\textbf{\underline{Desventajas}}:
+    \begin{itemize}
+        \item Complicado de implementar.
+        \item Complicado de mantener sincronizado emisor con receptor.
+        \vspace{2cm}
+    \end{itemize}
+}
+
+
+\subsubsubsection{OFDM}
+\textbf{OFDM} (\emph{Orthogonal Frequency Division Multiplexing}) es un método de multiplexación que consiste en enviar un conjunto de ondas portadoras de diferentes frecuencias.
+
+Usa un número de señales ortogonales para que envíen datos en forma paralela por varios canales. Cada carrier se module con una técnica convencional (\texttt{QAM} o \texttt{PSA}) y no necesariamente la misma.
+
+\texttt{\textbf{LTE}} usa \texttt{OFDM}.
+
+Su principal ventaja es la resistencia a condiciones adversas en el canal (atenuaciones, etc) así como \texttt{ISI} (\emph{intersymbol interference}). Pero también tiene problemas de sincronización emisor-receptor.
+
+\ig{0.5}{OFDMvsFDM.png}
+
+
+\section{Nivel de Red}
+Un \textbf{switch} de nivel de red es un ``appliance'' que conecta enlaces para formar redes más grandes. Su objetivo es lograr que la mayor cantidad de paquetes que entren al \emph{switch} vayan a la salida apropiada.
+
+Para eso cuenta con múltiples entradas y múltiples salidas. Cuando recibe un frame por un puerto de entrada, selecciona un puerto de salida utilizando una dirección que trae el \emph{header} del paquete. Los frames pueden ser de longitud variable o fija.
+
+
+Lo importante de los switches es que permiten construir redes \textbf{escalables}: agregar nuevos hosts a un switch no necesariamente impacta negativamente en la performance.
+
+\subsection{Conmutación de datagramas}
+La \textbf{conmutación de datagramas} es un modelo \textbf{no orientado a conexión} en el que cada nodo puede enviar un paquete en cualquier momento. Los paquetes se envían en forma independiente y deben llevar toda la información necesaria para ser routeados hasta destino (con lo cual el \emph{overhead} puede ser notable).
+
+Para esto, cada switch tiene una \textbf{tabla de \emph{forwarding}} en la que se indica, para cada destino, por qué puerto se debe reenviar el datagrama.
+
+\ig{0.3}{forwardingTable.png}
+
+\textbf{El modelo de datagrama es \emph{best-effort}. No se ocupa de que los paquetes lleguen a destino correctamente, ni que lleguen en orden. Se pueden perder o desordenar paquetes}. Incluso pueden entregarse paquetes duplicados. Si pasa, habrá alguna abstracción de nivel superior que se ocupe de manejarlo. %Estrategia ``not my fucking problem''
+
+No se debe esperar un \texttt{RTT} para establecer la conexión, con lo que el inicio es más rápido (un nodo puede mandar datos en cuanto esté listo). Además, como los paquetes son independientes, pueden tomar diferentes caminos para evitar sobrecargar los enlaces y nodos que estén fallutos.
+
+\subsection{Conmutación orientada a conexión}
+La \textbf{conmutación orientada a conexión} requiere una fase para establecer la conexión antes de poder comenzar a transmitir datos y luego una de finalización de conexión.
+
+El establecimiento del a conexión define un camino por el que van a circular los paquetes de la conexión, por lo que los paquetes no necesitan tener toda la información de cómo llegar a destino. Todos los paquetes utilizan siempre el mismo circuito, lo que garantiza que lleguen en orden.
+
+Cada \emph{switch} mantiene una tabla de \texttt{VC} (\emph{virtual circuit}) que consta de:
+\begin{itemize}
+    \item El puerto por el cual llega el paquete.
+    \item El identificador del circuito virtual (\texttt{VCI}) de entrada.
+    \item El puerto por el cual debe salir el paquete.
+    \item El identificador del circuito virtual (\texttt{VCI}) de salida.
+\end{itemize}
+
+\ig{0.4}{virtualCircuit.png}
+
+\subsubsection{Tipos de conexiones}
+
+\begin{itemize}
+    \item Las conexiones permanentes las define y finaliza el administrador de la red. Después de creado el circuito virtual ya pueden mandar datos.
+    \item Cuando un nodo desea enviar datos a otro, envía un mensaje solicitando una conexión. Este mensaje si contiene toda la información necesaria para llegar a destino. Cuando el mensaje llega a destino, el destinatario le responde aceptando la conexión. A medida que va pasando por los switches, estos van ``generando estado'' para la conexión. O sea, creando las entradas en sus respectivas tablas de circuitos virtuales. Algo análogo ocurre para terminar la conexión.
+\end{itemize}
+
+
+\subsection{Datagramas vs. Circuitos}
+\begin{center}
+    \begin{table}[h]
+        \begin{tabular}{|l|l|}
+            \hline
+            \multicolumn{1}{|c|}{\textbf{Datagramas}} & \multicolumn{1}{c|}{\textbf{Conexiones}}                  \\ \hline
+            Los paquetes van por donde quieren        & Los paquetes de la conexión van todos por el mismo camino \\ \hline
+            Comienzo inmediato                        & Esperar 1 \texttt{RTT} para comenzar a transmitir         \\ \hline
+            Paquetes pesados                          & Paquetes livianos                                         \\ \hline
+            Paquetes llegan desordenados              & Paquetes llegan ordenados                                 \\ \hline
+            Se banca que se caiga algún enlace/nodo   & Si se cae un nodo de la conexión, se cae la conexión      \\ \hline
+            No se permite reservar recursos           & Permite reservar recursos en los switches                 \\ \hline
+        \end{tabular}
+    \end{table}
+\end{center}
+
+
+\subsubsection{Source Routing}
+En la conmutación \textbf{\emph{source routing}}, toda la información sobre la topología de la red que se necesita para conmutar los paquetes es proporcionada por el nodo origen.
+
+Existen varias formas de implementarlo:
+\begin{itemize}
+    \item Rotación.
+    \item Stripping.
+    \item Pointer.
+\end{itemize}
+
+\ig{0.3}{sourceRouting.png}
+
+La conmutación \textbf{\emph{source routing}} se puede utilizar en redes orientadas a datagramas para especificar un camino por el que se quiere que circule un paquete. Esto puede ser importante por motivos de seguridad. Pero también puede ser usado en redes orientadas a conexión.
+
+\subsection{Internet Protocol}
+El \textbf{\emph{internet protocol}} (\texttt{IP}) es un protocolo \textbf{de capa 3} basado en datagramas. Esto implica que comparte muchas de sus características:
+\begin{itemize}
+    \item Best-effort.
+    \item Los paquetes se pueden perder.
+    \item Los paquetes pueden llegar fuera de orden.
+    \item No hay cota para el tiempo de entrega.
+\end{itemize}
+
+\subsubsection{Header IP}
+
+La cabecera de un datagrama IP contiene información que deben interpretar los routers. El tamaño de la cabecera es normalmente de 20 bytes, pudiendo llegar a 60 si se utilizan los campos opcionales.
+
+\ig{0.3}{headerIp.png}
+
+Notas:
+\begin{itemize}
+    \item El checksum es de la cabecera, no de todo el datagrama.
+    \item Un datagrama IP (incluyendo la cabecera) tiene un tamaño máximo de 65535.
+    \item El campo protocolo determina el uso que tiene el datagrama. Hay muchas opciones:
+    \begin{itemize}
+        \item 1: ICMP.
+        \item 6: TCP.
+        \item 17: UDP.
+        \item 89: OSPF.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Direcciones IP}
+Las direcciones IP tienen 32 bits y están compuestas de dos partes, la parte \textbf{red} (parte alta) y la parte \textbf{host} (parte baja). La longitud de cada una de las partes se indica mediante un parámetro denominado \textbf{máscara de red}.
+
+La máscara también tiene una longitud de 32 bits y no aparece en los paquetes sino que sólo se especifica en las interfaces y rutas.
+
+\ig{0.3}{ejemploNetMask.png}
+
+Hay tres tipos de direcciones IP:
+\begin{itemize}
+    \item Clase \textbf{A} $\Rightarrow$ 16 millones de IPs.
+    \item Clase \textbf{B} $\Rightarrow$ 65534 IPs.
+    \item Clase \textbf{C} $\Rightarrow$ 254 IPs.
+\end{itemize}
+
+(En realidad hay más, pero estos 3 son los más usados).
+
+\ig{0.3}{clasesDireccionesIP.png}
+
+\subsubsubsection{Direcciones especiales}
+La primer y última dirección de red de una máscara se reservan para uso especial. No pueden ser asignadas a ningún host.
+
+\begin{itemize}
+    \item La primera es para la \textbf{dirección de la red}.
+    \item La segunda es para la \textbf{dirección de broadcast}.
+\end{itemize}
+
+\subsubsubsection{Rangos reservados}
+Existen tres rangos de IP que no pueden ser usados para IPs públicas (RFC 1918). O sea las direcciones incluidas en esos rangos no pueden aparecer en Internet
+\begin{itemize}
+    \item 10.0.0.0 – 10.255.255.255\textbf{/8}
+    \item 172.16.0.0 – 172.31.255.255\textbf{/12}
+    \item 192.168.0.0 – 192.168.255.255\textbf{/16}
+\end{itemize}
+
+\subsubsection{Fragmentación}
+\texttt{IP} debe poder funcionar sobre cualquier red subyacente. Como cada tecnología tiene distintos \texttt{MTU} (\emph{maximum transmission unit}), es necesario que los datagramas IP se adapten para respetar esto.
+
+Es por esto que IP define el concepto de \textbf{fragmentación}: si un router recibe un datagrama que debe enviar a una red en la que $MTU < \text{tamaño}(datagrama)$, entonces se fracciona el datagrama en varios, colocando valores particulares en el \emph{header} para su posterior reensablado del lado del destinatario.
+
+Todos los fragmentos que componen un mismo datagrama partido tienen el mismo identificador. De hecho, comparten toda la cabecera excepto por los campos \emph{MF (more fragments)} y \emph{desplazaminto del fragmento}.
+
+La unidad básica de fragmentación es 8 bytes. Los datos se reparten en tantos fragmentos como haga falta, todos múltiplos de 8 bytes (excepto el último).
+
+% \subsubsection{Direccionamiento global}
+% //MJSDO FALTA DIRECCIONAMIENTO GLOBAL
+
+\subsubsection{IP Forwarding}
+Dada una dirección de destino $P$ y un prefijo de red $N$, el algoritmo de forwardeo de los routers IP es:
+
+\begin{algorithm}[H]
+ \eIf{(N está concetado directamente a mi)} {
+    Reenviar a esa interfaz
+ } {
+    \eIf{(N está en mi forwarding table)}{
+        Reenviar datagrama al nextHop que figura en la tabla
+    }{
+        Reenviar datagrama al default router
+    }
+ }
+ \caption{Routeo IP}
+\end{algorithm}
+
+\subsubsection{VLANs}
+
+
+Una \textbf{VLAN} (\emph{virtual LAN}) es un método para crear redes lógicas independientes dentro de una misma red física. Varias \texttt{VLAN} pueden coexistir en un único conmutador físico o en una única red física.
+
+% Una \textbf{VLAN} consiste en dos redes de ordenadores que se comportan como si estuviesen conectados al mismo \texttt{PCI}, aunque se encuentren físicamente conectados a diferentes segmentos de una red de área local. Los administradores de red configuran las \texttt{VLAN}s mediante hardware en lugar de software, lo que las hace extremadamente fuertes.
+Existen dos tipos de \texttt{VLAN}s:
+
+Las \texttt{VLAN}s pueden ser \textbf{estáticas} o \textbf{basadas en puerto} se crean mediante la asignación de puertos de un \emph{switch} a la \texttt{VLAN}.
+
+En las \texttt{VLAN}s dinámicas, la asignación se realiza dinámicamente en función de propiedades tales como la dirección \texttt{MAC} o autenticación de usuario.
+
+% \ig{0.4}{subNetMask.png}
+
+\subsubsubsection{¿Para qué usar VLANs?}
+\begin{itemize}
+    \item Para reducir el tráfico \emph{broadcast} en una LAN muy grande.
+    \item Para conectar redes locales remotas de una misma organización.
+    \item Para poder dividir la red en zonas con distinto nivel de seguridad con un firewall.
+    \item Para separar redes de servicio, backbone, interna, etc. (por ejemplo, un ISP).
+\end{itemize}
+
+% //MJSDO FALTA MÁSCARAS
+% //MJSDO FALTA ROUTAMIENTO ESPECÍFICO
+% //MJSDO FALTA SUPERNETTING
+
+\subsection{X.25}
+Norma de la \texttt{ITU-T} para la interface entre los host y la red de conmutación de paquetes. Define 3 capas:
+
+\begin{itemize}
+    \item Física: interface en el enlace entre el nodo y la estación. Ambos extremos son distintos.
+    \item Enlace: provee transferencia confiable de datos sobre el enlace enviando secuencias de tramas.
+    \item Paquete: provee conexiones lógicas (\emph{virtual circuits}) entre los usuarios.
+\end{itemize}
+
+Aspecto claves incluyen:
+\begin{itemize}
+    \item Paquetes de control de llamadas, señalización dentro de banda.
+    \item Multiplexaje de circuitos virtuales en el nivel 3.
+    \item Las capas 2 y 3 incluyen control de flujo y de errores.
+\end{itemize}
+
+
+% \subsection{ATM}
+% //MJSDO FALTA ATM
+
+
+\subsubsection{Algoritmos de ruteo}
+Los algoritmos de routeo se pueden separar en dos categorías:
+\begin{itemize}
+    \item Ruteo \textbf{interno} (\texttt{IGP}, \emph{Internal Gateway Protocol}): tienen como dominio a un sistema autónomo.
+    \item Ruteo \textbf{externo} (\texttt{EGP}, \emph{External Gateway Protocol}): routean entre sistemas autónomos.
+\end{itemize}
+
+\ig{0.4}{EGPvsIGP.png}
+
+\subsubsubsection{Forwarding vs Routeo}
+\begin{itemize}
+    \item \textbf{Reenvío}: proceso de seleccionar un puerto de salida basado en la dirección de destino y las tablas de ruteo.
+    \item \textbf{Forwarding}: proceso mediante el cual se construyen las tablas de ruteo.
+\end{itemize}
+% //MJSDO CUALQUIERA ESTO MAN.
+
+
+\subsubsubsection{Distance Vector}
+Los algoritmos de ruteo basados en \emph{distance vector} están basados en el algoritmo de \emph{Bellman-Ford} distribuido. Cada nodo mantiene una tabla de tuplas \texttt{(Destination, Cost, NextHop)}.
+
+Para mantener actualizada la información de ruteo cada nodo intercambia información con sus vecinos directamente conectados. Estas actualizaciones ocurren periódicamente, pero también se fuerzan cuando hay algún cambio.
+
+Las actualizaciones consisten de un par \texttt{(Destination, Cost)}. Cuando un nodo recibe una tupla de actualización, computa qué es más costoso: si mantener el camino que él tiene en su tabla de ruteo para el destino o si sumarle 1 hop al valor que me acaba de pasar mi vecino e ir a través de él. Si ocurren varios \emph{time-out} se borran las rutas en los routers.
+
+\subsubsubsubsection{Count to infinity}
+El \textbf{problema de conteo a infinito} es una situación que puede darse con los algoritmos de \emph{distance vector}. El problema tiene su origen en que si un nodo $A$ le informa a otro nodo $B$ que tiene un camino a $C$ de costo $n$, $B$ no tiene forma de saber si él pertenece a ese camino.
+
+\ig{0.5}{countToInfty.png}
+
+Si $A$ se cae, $B$ tiene que borrar esa información de su tabla. Como ahora $B$ no sabe llegar a $A$, cuando le llega un mensaje de $C$ diciendo ``si vas a través mío, podés llegara a $A$ en dos pasos'', actualiza tu tabla a 3. Esta información es incorrecta, porque la forma de llegar de $C$ a $A$ \textbf{es a través de} $B$. Luego empieza un ciclo en el que continuamente se van aumentando los la distancia sin parar.
+
+\subsubsubsubsection{Soluciones}
+Para solucionar el \emph{count to infinity problem} se pueden usar dos heurísticas:
+\begin{itemize}
+     \item \textbf{Split horizon}: cuando un nodo $A$ recibe información de un nodo $B$ y compute la nueva ruta, envíe la información a todos sus hermanos \textbf{excepto a $B$}.
+     \item \textbf{Poison reverse}: cuando un nodo $A$ detecta que una de sus rutas conectadas se cayó, va a ``envenenar'' la ruta asignándole $\infty$ a su distancia y avisándolo a sus vecinos. Cuando uno de sus vecinos reciba esto, va a romper la regla de \emph{split horizon} y anunciarle a todos sus vecinos (incluido $A$) de la ruta caida.
+ \end{itemize}
+
+ Estas heurísticas no funcionan demasiado bien en la práctica.
+
+\subsubsubsection{Link State}
+A diferencia de \emph{distance vector}, donde cada nodo conoce sólo la información de sus vecinos, en \textbf{\emph{link state}} todos los nodos conocen toda la topología de la red, con sus respectivos costos. Esto permite que se utilice una versión modificada del algoritmo de \emph{Dijkstra} para calcular el camino mínimo.
+
+Para que todos los nodos conozcan la topología entera, los nodos comparten su conocimiento no con los vecinos sino con todos los nodos de la red mediante una técnica llamda \textbf{reliable flooding}. No se envía la tabla completa con la que cuenta cada nodo sino sólo sobre los enlaces directamente conectados.
+
+Para transmitir, cada nodo hace un paquete del estado del enlace \textbf{LSP} (\emph{Link State Packet}). Este paquete contiene:
+\begin{itemize}
+    \item $id$ del nodo que creó el \texttt{LSP}.
+    \item Costo del enlace a cada vecino directamente conectado al nodo.
+    \item Número de secuencia del paquete.
+    \item \texttt{TTL} (\emph{Time To Live}) del paquete.
+\end{itemize}
+
+\subsubsubsubsection{Reliable Flooding}
+La ténica de \textbf{reliable flooding} permite asegurar que la información que envía un nodo llegue a todos los nodos de la red.
+
+\begin{itemize}
+    \item Cada nodo almacena el \texttt{LSP} más reciente (número de secuencia más alto) de cada uno de los otros nodos.
+    \item Cuando un nodo recibe un \texttt{LSP} se lo reenvía a todos sus vecinos excepto al que me lo mandó \textbf{decrementando su } \texttt{TTL}.
+    \begin{itemize}
+        \item Si el \texttt{LSP} que recibe tiene \texttt{TTL}=0, lo descarta.
+    \end{itemize}
+    \item Periódicamente cada nodo genera y envía un nuevo \texttt{LSP} (aumentando el número de secuencia).
+    \item Cuando se reinicia el router, se setea el número de secuencia a 0.
+\end{itemize}
+
+\subsubsubsubsection{Shortest Path Routing}
+
+\textbf{Forward Search Algorithm} es una versión modificada del algoritmo de Dijkstra que se usa para calcular los caminos mínimos en \emph{link state}. Difiere del algoritmo de Dijkstra en que permite ir calculando el camino paulatinamente conforme lleguen los \texttt{LSP} de los nodos.
+
+El algoritmo mantiene dos listas de nodos: la de entradas \textbf{confirmadas} y la de \textbf{tentativas}, cada una de las cuales consta de una tupla \texttt{(Destination, Cost, NextHop)}.
+
+% //FALTA Shortest Path Routing
+
+
+
+
+
+
+\subsubsubsection{Distance Vector vs Link State}
+\ig{0.4}{dv-ls.png}
+
+\begin{center}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|p{7cm}|p{7cm}|}
+            \hline
+            \textbf{\large {Distance Vector}}                                                                            & \textbf{\large {Link State}}                                                                             \\ \hline
+            Más liviano (no hay algoritmos de grafos complejos)                                                 & Más pesado (calcular dijkstra en cada nodo)                                                     \\ \hline
+            Nodos bobos y baratos                                                                               & Necesitás mucho almacenamiento y poder de cómputo en los nodos                                  \\ \hline
+            Cada nodo transmite a sus vecinos lo que sabe respecto de toda la red (distancia a todos los nodos) & Cada nodo transmite a toda la red lo que sabe de sus enlaces vecinos (el estado de sus vecinos) \\ \hline
+            Más propenso a errores                                                                              & Más estable                                                                                     \\ \hline
+            Mucho overhead                                                                                      & No genera tanto tráfico                                                                         \\ \hline
+            Si se me cae un nodo puede entrar en count to infinity                                              & Responde más rápido a cambios de topología                                                      \\ \hline
+            Escala peor                                                                                         & Escala mejor                                                                                    \\ \hline
+        \end{tabular}
+    \end{table}
+\end{center}
+
+% Distance vector => mas liviano (no hay algoritmos de grafos complejos).
+% Link State => más pesado.
+
+% DV => Cada nodo transmite a sus vecinos lo que sabe respecto de toda la red (distancia a todos los nodos).
+% LS => Cada nodo transmite a toda la red lo que sabe de sus enlaces vecinos (el estado de sus vecinos).
+
+% DV => Más propenso a errores y mucho overhead.
+% LS => Estable y no genera tanto tráfico.
+
+% DV => Nodos bobos y baratos.
+% LS => Necesitás mucho almacenamiento y cómputo en los nodos.
+
+% DV => Si se me cae un nodo puede entrar en count to infinity.
+% LS => Responde más rápido a cambios de topología.
+
+% DV => Escala peor.
+% LS => Escala mejor.
+
+
+
+\subsubsubsubsection{Métricas}
+Las métricas \texttt{ARPANET} fueron diseñadas para medir la performance de un sistema de ruteo. En su versión original, \texttt{ARPANET} mide el número de paquetes encolados en cada enlace. No toma en cuenta la \textbf{latencia} ni el \textbf{ancho de banda}.
+
+Más tarde apareció una segunda versión que \emph{taggea} cada paquete entrante con su tiempo de llegada ($AT$) y registra su tiempo de salida ($DT$). Luego, cuando llega el \texttt{ACK} de ese paquete, realiza el cálculo:
+\begin{center}
+    \texttt{Delay = (TiempoSalida - TiempoLlegada) + Transmit + Latency}
+\end{center}
+
+donde \texttt{Transmit} y \texttt{Latency} son parámetros de la red.
+
+
+
+
+
+\subsubsubsection{RIP}
+\textbf{RIP} (\emph{Routing Information Protocol}) es un protocolo de ruteo para redes \texttt{IP} basado en \emph{vector-distance}. Utiliza cantida de hops de salto como medida de proximidad y heurísticas de \emph{poison reverse} y \emph{split horizon} para evitar el problema de \emph{count to infinity}. Además, setea el número máximo de hops permitido como 15 (el 16 lo considera $\infty$).
+
+Se dejó de usar por sus notables problemas de escalabilidad y \emph{overhead}: los nodos \texttt{RIP} enviaban cada 30 segundos actualizaciones a sus vecinos. Aún si los \emph{clocks} de los nodos comenzaban aleatoriamente, después de un tiempo se sincronizaban, generando un pico muy alto de uso de de la red (con su correspondiente saturación) cada 30 segundos.
+
+
+% RIP:RoutingInformationProtocol
+%  desarrollado por XNS
+%  Distribuido con Unix
+%  usa algoritmo vector distancia
+%  basado en cuenta de hops
+
+\subsubsubsection{OSPF}
+\textbf{OSPF} (\emph{Open Shortest Path First}) es un protocolo de ruteo abierto para redes IP (disponible públicamente) basado en \emph{link state}.
+
+Al ser un protocolo de tipo \emph{link state}, \texttt{OSPF} utiliza \emph{reliable flooding} para comunicar a todos los nodos de la red los enlaces conectados a cada nodo. Lo particular de OSPF es que utiliza sus propios mensajes \texttt{IP}, que es mejor que comunicar por \texttt{TCP} o \texttt{UDP}.
+
+\textbf{Todos los mensajes en \texttt{OSPF} van autentificados, evitando inserciones no autorizadas de terceros.}
+
+Además, permite que se mantengan dos caminos entre dos nodos si ambos tienen igual costo (cosa que no se puede en \texttt{RIP}).
+
+Si bien no es usado en la práctica, \texttt{OSPF} en teoría soporta distintos \texttt{TOS} (\emph{type of service}), que pueden utilizarse para distinguir enlaces de alta prioridad, de bajo coste, etc.
+
+\subsubsubsubsection{Jerarquía}
+La principal ventaja que provee \texttt{OSPF} consiste en su estructura jerárquica, lo que lo dota de una inmensa \textbf{escalabilidad}.
+
+\ig{0.4}{OSPFJerarquico.png}
+
+
+% //MJSDO REESCRIBIR ESTE CACHO
+Como se ve en la imagen, los nodos se dividen en tres categorías:
+\begin{itemize}
+    \item \textbf{Frontera de área}: ``resumen'' las distancias a las redes del mismo área, anuncian a otros routers de Frontera de área.
+    \item \textbf{Troncal}: ejecutan ruteados de \texttt{OSPF} limitados al troncal.
+    \item \textbf{Interno}:
+\end{itemize}
+
+Utilizando estas categorizaciones jerárquicas y algoritmos inteligentes, se puede reducir mucho la cantidad de mensajes necesarios para hacer el \emph{reliable flooding}.
+
+Además, reduce la cantidad de información que tiene que estar almacenada en un nodo, dado que cada nodo detalla la topología del área; sólo conoce la dirección (el camino más corto) a las redes de otras áreas.
+
+\subsubsubsubsection{Tipos de mensaje}
+\texttt{OSPF} soporta los siguientes tipos de mensaje:
+\begin{itemize}
+    \item \textbf{Hello}: descubre quienes son los vecinos.
+    \item \textbf{Link State Update}: proporciona los costos del emisor a su vecino.
+    \item \textbf{Link State Ack}: confirma la actualización del estado del enlace.
+    \item \textbf{Database Description}: anuncia qué actualizaciones tiene el emisor.
+    \item \textbf{Link State Request}: solicita información de otro nodo.
+\end{itemize}
+
+
+\subsubsubsection{EGP}
+\textbf{EGP} (\emph{Exterior Gateway Protocol}) era el algoritmo de ruteo usado en internet para conectar sistemas autónomos en su primer época, cuando aún estaba estructurada como árbol y no como grafo.
+
+\subsubsubsection{BGP}
+\textbf{BGP} (\emph{Border Gateway Protocol}) es un protocolo de ruteo externo (entre sistemas autónomos) pasado en \emph{distance vector}.
+
+
+Hoy en día se usa \textbf{BGP-v4} que también sirve para interconectar sistemas autónomos pero más eficientemente.
+
+Cada sistema autónomo tiene uno o más routers de borde y un portavoz que publica las redes locales, otras redes alcanzables e información de rutas.
+
+Los autonomous systems se dividen en cateogrías:
+\begin{itemize}
+    \item \textbf{Stub AS} (tiene una única conexión a otro AS): transporta sólo tráfico local.
+    \item \textbf{Multihomed AS} (tiene conexiones a más de un AS): no transporta tráfico en tránsito.
+    \item \textbf{Transit AS} (tiene conexiones a más de un AS): transporta ambos tráfico local y en tránsito.
+\end{itemize}
+
+% //MJSD FALTA PIM ESPARSO Y DENSO
+
+\section{Nivel de Transporte}
+\subsection{Transporte vs Red}
+
+El \textbf{nivel de transporte} se apoya sobre la capa de red, con lo que tiene que ocuparse de las consecuencias de que sea \emph{best effort}:
+\begin{itemize}
+    \item Llegan paquetes desordenados.
+    \item Se pierden paquetes.
+    \item Llegan paquetes con demoras arbitrariamente largas.
+    \item Llegan paquetes duplicados.
+\end{itemize}
+
+~\newline
+El nivel de transporte debe lidiar con estos problemas porque debe proveer:
+\begin{itemize}
+    \item Garantía de entrega de mensajes.
+    \item Entrega de mensajes en el mismo orden que son enviados.
+    \item Una copia por mensaje.
+    \item Soporte para mensajes arbitrariamente largos.
+    \item Control al receptor el flujo de datos del transmisor.
+    \item Soporte para múltiples procesos de nivel de aplicación en cada máquina.
+    \item Soporte para diferentes \texttt{RTT}.
+    \item Soporte para potencialmente largos retardos en la red subyacente.
+    \item Soporte para destinos de diferentes capacidades.
+\end{itemize}
+
+\subsection{TCP}
+\textbf{TCP} (\emph{Transmission Control Protocol}) es el protocolo de comunicación más usado en la actualidad y uno de los pilares de Internet.
+
+Algunas características generales son:
+\begin{itemize}
+    \item \textbf{Orientado a conexión}: \emph{3-way handshake} para establecer una conexión y \emph{4-way handshake} para liberarlo.
+    \item \textbf{Confiable}: establece una conexión lógica entre los \emph{sockets}. Para eso usa:
+    \begin{itemize}
+        \item \texttt{ACK}.
+        \item \emph{Checksum}.
+        \item Números de secuencia.
+        \item Timeout.
+        \item \textbf{Control de flujo}: evita que un transmisor inunde a un receptor.
+        \item \textbf{Control de congestión}: evita que un transmisor sobrecargue a la red.
+    \end{itemize}
+    \item Provee flujo de \emph{bytes}:
+    \begin{itemize}
+         \item La aplicación escribe \emph{bytes}.
+         \item Bajo algún criterio, se compactan estos \emph{bytes} en un segmento y los envía. Este criterio puede ser:
+         \begin{itemize}
+             \item Se llega a \texttt{MSS} (\emph{Maximum Segment Size}) \emph{bytes}.
+             \item Ocurre un timeout.
+             \item La aplicación pide explícitamente pushear los datos.
+         \end{itemize}
+         \item La aplicación receptora lee \emph{bytes}
+     \end{itemize}
+    \item \textbf{Full duplex}: puede haber comunicación simultánea y bidireccional entre emisor y receptor.
+\end{itemize}
+
+\subsubsection{Encapsulamiento}
+\ig{0.3}{dataEncapsulation.png}
+
+\subsubsection{Frame TCP}
+
+\ig{0.35}{FrameTCPeIP.png}
+
+donde
+\begin{itemize}
+    \item \texttt{srcPort} y \texttt{dstPort} (16 bits): indican los puntos finales locales de la conexión.
+    \item \texttt{sequenceNum} (32 bits): identifica el primer \emph{byte} de los datos de aplicación que contiene el segmento \texttt{TCP}.
+    \item \texttt{ACK} (32 bits): indica el siguiente byte que esperar del emisor. Implica la confirmación de todos los bytes de menor \texttt{sequenceNum}.
+    \item \texttt{HdrLen} (4 bits): indica cuántas palabras de 32 bits están contenidas en el header. Es necesario porque el campo \texttt{options} tiene longitud variable.
+    \item \texttt{Flags}:
+    \begin{itemize}
+        \item \texttt{URG}: es 1 si el campo ``puntero a urgente'' está en uso.
+        \item \texttt{ACK}: es 1 si el número de reconocimiento es válido. Si vale 0, el paquete no contiene un reconocimiento, y entonces el campo número de reconocimiento es ignorado.
+        \item \texttt{PSH}: indica al receptor que debe entregar los datos a la aplicación inmediatamente y no bufferear.
+        \item \texttt{RST}: sirve resetear la conexión (por ejemplo si se cayó un host).
+        \item \texttt{SYN}: usado para establecer conexiones.
+        \item \texttt{FIN}: usado para liberar conexiones.
+    \end{itemize}
+    \item \texttt{AdvertisedWindow}: se usa en control de flujo. Indica cuantos bytes pueden ser enviados comenzando desde el último byte reconocido.
+    \item \texttt{Checksum}: se computa sobre el \emph{pseudoheader} (\texttt{protocol + srcIpAddr + dstIpAddr}), todo el header de \texttt{TCP} y todos los datos del segmento.
+    \item \texttt{UrgPtr}: se utiliza para indicar un desplazamiento en bytes a partir del número de secuencia actual en el que se encuentran los datos urgentes. Esta facilidad se brinda en lugar de los mensajes de interrupción.
+    \item \texttt{Options}: diseñado para proveer una manera de adicionar facilidades extras no cubiertas por la cabecera regular. Se usan para extensiones de \texttt{TCP}.
+\end{itemize}
+
+
+\subsubsection{Estableciendo la conexión}
+
+Cada conexión en \texttt{TCP} se identifica con la tupla \texttt{(srcIpAddr, srcPort, dstIpAddr, dstPort)}. El protocolo usa \emph{sliding window} y control de flujo. El emisor transmite los datos con un cierto \texttt{seqNum} y el receptor devuelve \texttt{ACK} + \texttt{avertisedWindow}.
+
+Para establecer una conexión, \texttt{TCP} utiliza un mecanismo llamado \textbf{three-way handshake}: antes de que un cliente intente conectarse con un servidor, deben primero establecer una conexión enviándo tres mensajes:
+\begin{itemize}
+    \item \texttt{SYN}: el cliente le envía al servidor un mensaje \texttt{SYN} y un determinado número de secuencia aleatorio.
+    \item \texttt{SYN+ACK}: en respuesta, el servidor envía un paquete con \texttt{SYN+ACK} que tiene el \texttt{ACK} seteado en 1 + el número de secuencia recibido. En su número de secuencia envía otro número aleatorio.
+    \item \texttt{ACK}: Finalmente el cliente envía un \texttt{ACK} de nuevo al servidor. El \texttt{ACK} debe ser el 1 + número de secuencia recibido en el paquete anterior y el número de secuencia 1 + el número generado por el cliente para el primer paquete.
+\end{itemize}
+
+\ig{0.5}{TCPConnect.png}
+
+\subsubsection{Terminando la conexión}
+
+La terminación de una conexión de \texttt{TCP} puede realizarse de dos formas: \emph{four-way handshake} o \texttt{three-way handshake}
+
+\subsubsection{Terminar con four-way handshake}
+Para finalizar una conexión con un \emph{four-way handshake} cada nodo de la conexión debe terminarla independientemente: los 4 mensajes requeridos pueden verse como 2 grupos de 2 en los cuales cada uno cierra ``su lado'' de la conexión.
+
+Cuando uno de los nodos ($A$) desea terminar su conexión con el otro nodo ($B$) se intercambian los siguientes mensajes:
+\begin{itemize}
+    \item El nodo que desea cerrar ($A$) envía \texttt{FIN}.
+    \item El nodo receptor ($B$) acusa recibo del mensaje enviando \texttt{ACK}.
+\end{itemize}
+
+En este punto la conexión se considera \emph{half-open}. El nodo que envió el \texttt{FIN} no puede seguir enviando información por la conexión, pero sí debe seguir recibiendo, puesto que el otro lado no desea terminar su conexión todavía. Cuando $B$ desea terminar, realizan el intercambio inverso:
+\begin{itemize}
+    \item $B$ envía \texttt{FIN}.
+    \item $A$ responde con \texttt{ACK}.
+\end{itemize}
+
+Luego, de que ambos intercambios hayan terminado, el nodo $A$ debe esperar un cierto tiempo antes de cerrar la conexión y permitir reasignar su puerto. Esto está pensado para prevenir que si se reasigna el puerto demasiado rápido puedan llegar paquetes demorados de la conexión anterior y generar confusión.
+
+\subsubsection{Terminar con three-way handshake}
+Finalizar un conexión con \emph{three-way handhsake} es igual que con 4 mensajes, pero se combinan los dos mensajes consecutivos del mismo host en uno sólo (cuando a ese host no le interesa dejar la conexión en estado \emph{half-open}). Luego, la secuencia de mensajes es:
+\begin{itemize}
+    \item Una de las partes envía \texttt{FIN}.
+    \item El otro nodo envía \texttt{FIN+ACK}.
+    \item El nodo original envía \texttt{ACK}.
+\end{itemize}
+
+
+\subsubsection{Sliding Window}
+
+% \texttt{TCP} usa una política de rentransmisión ``Go Back N'' con el tamaño de ventana publicado por el receptor. En esta política de retransmisión, el emisor manda $n$ paquetes consecutivos (siendo $n$ el tamaño de ventana) sin importar el \texttt{ACK}. Cuando termina con los $n$, revisa cuál es el valor del \texttt{ACK} que está respondiendo el receptor y nuevamente manda $n$ consecutivos empezando por ese valor de \texttt{ACK}.
+
+% El receptor por el otro lado, conoce el número del próximo paquete que desea recibir ($r$). Cualquier paquete que reciba que no coincida con ese \texttt{seqNum} es descartado y el \texttt{ACK} responde con el valor ($r$). Si el frame que llega es el $r$, entonces $r=r+1$.
+
+
+Se implementa una variante de \emph{sliding window} que garantiza \textbf{confiabilidad}, \textbf{orden} y fuerza el \textbf{control del flujo}.
+
+\begin{itemize}
+    \item \textbf{Emisor}: \texttt{LastByteAcked} $\leq$ \texttt{LastByteSent} $\leq$ \texttt{LastByteWritten}
+    \item \textbf{Receptor}: \texttt{LastByteRead} $ < $ \texttt{NextByteExpected} $\leq$ \texttt{LastByteRcvd} + 1
+\end{itemize}
+
+\ig{0.35}{TCPSlidingWindow.png}
+
+Para la parte de \textbf{control de flujo}, tanto el emisor como el receptor tienen \emph{buffers} que utilizan para almacenar los mensajes de tamaño \texttt{MaxSendBuffer} y \texttt{MaxRcvBuffer} respectivamente.
+
+Del lado del receptor, se debe cumplir que:
+\begin{itemize}
+    \item \texttt{LastByteRcvd} - \texttt{LastByteRead} $\leq$ \texttt{MaxRcvBuffer}.
+    \item \texttt{AdvertisedWindow} = \texttt{MaxRcvBuffer} - (\texttt{LastByteRcvd} - \texttt{NextByteRead})
+\end{itemize}
+
+Del lado del transmisor,
+\begin{itemize}
+    \item \texttt{LastByteSent} - \texttt{LastByteAcked} $\leq$ \texttt{AdvertisedWindow}
+    \item \texttt{EffectiveWindow} = \texttt{AdvertisedWindow} - (\texttt{LastByteSent} - \texttt{LastByteAcked})
+    \item \texttt{LastByteWritten} - \texttt{LastByteAcked} $\leq$ \texttt{MaxSendBuffer}
+    \item Bloquear al transmisor si (\texttt{LastByteWritten} - \texttt{LastByteAcked}) + \#bytesQueElTransmisorQuiereEscribir $>$ \texttt{MaxSenderBuffer}
+\end{itemize}
+
+\ig{0.4}{TCPSWExample.png}
+
+\subsubsection{Adaptative Retransmission}
+\texttt{TCP} garantiza que los mensajes llegan a destino. Para esto, define un \texttt{RTO} (\emph{retransmission timeout}) luego del cual si no se recibió el \texttt{ACK} para un determinado paquete, se reenvía.
+
+Lo novedoso de \texttt{TCP} es que ese \emph{timeout} no es un valor fijo sino que se calcula en funciión del \texttt{RTT} esperado entre dos nodos de la conexión.
+
+Hubo 4 fórmulas:
+\begin{itemize}
+    \item La histórica: medir el RTT por paquete y hacer un promedio ponderado.
+    \item Karn/Partridge: no cuentan los RTT de las retransmisiones, pero después de cada retransmisión, duplican el \emph{timeout}.
+    \item Jacobson/Karels: considera la desviación estándar.
+    \item RFC6298: define cotas para cuán agresivo puede ser un algoritmo de cálculo de \texttt{RTO} (aunque se pueden programar más conservadores). El emisor mantiene dos variables \texttt{SRTT} (\emph{smoothed rtt}) y \texttt{RTTVAR} (\emph{rtt variation}). A  medida que van llegando valores se computa:
+    \begin{itemize}
+        \item \texttt{RTTVAR} = (1 - $\beta$) $\times$ \texttt{RTTVAR} + $\beta$ $\times$ $\|$\texttt{SRTT} - R'$\|$
+        \item \texttt{SRTT} = (1 - $\alpha$) $\times$ \texttt{SRTT} + $\alpha$ $\times$ R'
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Estados de TCP}
+\ig{0.5}{TCPStateMachine.png}
+
+Como se ve en la imagen, una conexión de \texttt{TCP} puede estar en muchos estados:
+\begin{itemize}
+    \item \textbf{Closed}: no hay conexión activa ni pendiente.
+    \item \textbf{Listen}: el servidor espera una llamada.
+    \item \textbf{SYN Received}: llegó solicitud de conexión, espera \texttt{ACK}.
+    \item \textbf{SYN Sent}: la aplicación comenzó a abrir una conexión.
+    \item \textbf{Established}: estado normal de transferencia.
+    \item \textbf{FIN Wait 1}: la aplicación dijo que ya terminó.
+    \item \textbf{FIN Wait 2}: el servidor aceptó liberar.
+    \item \textbf{Timed Wait}: el primero espera a que mueran todos los paquetes.
+    \item \textbf{Closing}: ambos lados intentaron cerrar simultáneamente.
+    \item \textbf{Close Wait}: el otro lado inició una liberación.
+    \item \textbf{Last ACK}: espera a que todos los paquetes mueran.
+\end{itemize}
+
+
+\subsubsection{Algoritmo de Nagle}
+
+El \textbf{algoritmo de Nagle} intenta reducir la cantidad de paquetes \texttt{IP} que deben ser enviados a la red.
+
+\begin{algorithm}[H]
+ \eIf{(tamaño de ventana y datos disponibles $\geq$ MSS)} {
+    Enviar un segmento lleno
+ } {
+    \eIf{(Los datos en vuelo están in reconocer)}{
+        Bufferear el dato nuevo hasta que llegue el \texttt{ACK}
+    }{
+        Enviar datos nuevos ahora
+    }
+ }
+ \caption{Algoritmo de Nagle}
+\end{algorithm}
+
+
+Si la aplicación receptora lee muy despacio, el buffer se llena y anuncia un tamapo de ventana de lectura = 0. Luego, el emisor deja de transmitir. Cuando el receptor lea vuelve a aumentar la ventana y manda un \texttt{ACK} anunciándolo. ¿Qué pasa si se pierde ese \texttt{ACK}? el emisor no puede enviar datos y el receptor no sabe que se perdió el \texttt{ACK}.
+
+Para solucionar esto, \texttt{TCP} implementa \textbf{\emph{persistent timer}}: periódicamente se envían \emph{window probes} con 1 byte de dato.
+
+Esto puede llevar al problema conocido como \emph{\textbf{Silly Window Sindrome}}: si la aplicación receptora lee de a 1 byte, el window probe puede estar llenándome el espacio de ese byte mientras el receptor lee.
+
+\ig{0.4}{sillyWindow.png}
+
+
+La solución de Clark al problema del \emph{silly window} consiste en no enviar un aviso de ventana para 1 byte, sino en esperar a tener una capacidad de buffer considerable (el mínimo entre el MSS y la mitad del buffer).
+
+\subsubsection{Análisis de TCP}
+\begin{center}
+    $\displaystyle T = \text{ throughout } = \frac{\displaystyle \frac{paquetes\ transmitidos}{ciclo}}{\displaystyle \frac{tiempo}{ciclo}}$
+\end{center}
+
+~\newline
+
+\begin{center}
+    $\displaystyle BW = \text{ bandwith } = \frac{\displaystyle \frac{data}{ciclo}}{\displaystyle \frac{tiempo}{ciclo}}$
+\end{center}
+
+\subsection{Congestión}
+Decimos que hay \textbf{congestión} cuando hay un estado sostenido de sobrecarga de una red donde la demanda de recursos (\emph{buffers} y enlaces) se encuentra al límite o excede la capacidad de los mismos. Las manifestaciones de la congestión son: pérdida de paquetes (por saturación de \emph{buffers}) y retardos muy largos. Esto da idea de algunas métricas que pueden usarse:
+\begin{itemize}
+    \item Porcentaje de paquetes descartados por sobrecarga de buffers.
+    \item Longitud media de una cola.
+    \item Cantidad de paquetes que generan timeout y son retransmitidos.
+    \item Promedio de demora de un paquete.
+    \item Desviación estandar de la demora de un paquete.
+\end{itemize}
+
+\caja{0.8}{
+    \textbf{\underline{OBSERVACIÓN}}: \textbf{Control de congestión $\neq$ control de flujo}. El control de congestión es una cuestión global que involucra a todos los hosts y routers. Evita que los transmisores sobrecarguen el interior de una red.
+
+    El control de flujo contra tráfico punto a punto entre un receptor y un transmisor y evita que los transmisores sobrecarguen a receptores lentos.
+}
+
+\subsubsection{Cáusas de congestión}
+Se pueden nombrar muchas:
+\begin{itemize}
+    \item Procesadores lentos.
+    \item Problemas con software de ruteo.
+    \item Partes del sistema (una linea vieja y muchas nuevas).
+    \item Congestión (la congestión tiende a realimentarse).
+    \item Políticas de Transporte (retransmisión, almacenamiento fuera de orden, control de flujo confirmación de recepción).
+    \item Políticas de Red (circuitos vs datagramas, encolamiento, política de descarte, TTL).
+    \item Políticas de Enlace de datos (retransmisión, confirmación de recepción).
+\end{itemize}
+
+
+\subsubsection{Control de congestión}
+Definimos entonces al \textbf{control de congestión} como el esfuerzo hecho por los nodos de la red para prevenir o responder a sobrecargas de la red que conducen a pérdidas de paquetes.
+
+Se pueden hacer 3 cosas para evitar la congestión:
+\begin{itemize}
+    \item Sobredimensionar.
+    \item Diseñar.
+    \item Controlar, evitar.
+    \item Pre-asignar recursos (cuando se pueda, ej. redes orientadas a conexión). Problema: subutilización de recursos.
+\end{itemize}
+
+Queremos que la red sea usada eficientemente ($\displaystyle \frac{throughput}{retardo}$) y equitativamente (fórmula de Jain).
+
+\subsubsection{Congestion control vs Congestion avoidance}
+Congestion control es reactivo. Detecta la presencia de congestión y hace algo al respecto.
+
+Congestion avoidance es proactivo.
+
+
+\subsubsection{Lazo abierto vs Lazo cerrado}
+De acuerdo con la taxonomía de Yang y Reddy, los algoritmos de control de congestión se categorizan en:
+\begin{itemize}
+    \item Lazo abierto: no hay retroalimentación hacia el controlador para que éste pueda ajustar la acción de control.
+    \item Lazo cerrado: usan la retroalimentación desde un resultado final para ajustar la acción de control en consecuencia.
+    \begin{itemize}
+        \item Realimentación implícita: la red \emph{dropea} paquetes cuando ocurre la congestión. Las fuentes pueden detectar esto (por \emph{timeouts}, \texttt{ACK}s duplicados, etc) y hacer algo al respecto.
+        Su implementación es relativamente simple, porque sólo involucra complejidad en los emisores.
+        \item Realimentación explícita: los distintos componentes de la red deben proveer indicación explícita de congestión a las fuentes. Se usa \emph{packet marking}. Provee información más precisa.
+        Su implementación es más complicada porque involucra cambios en las fuentes además de en los nodos y hay cuestiones de compatibilidad.
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsection{RED y FRED}
+\texttt{RED} (\emph{Random Early Detection}) es un algoritmo de lazo cerrado con realimentación implícita que tiene como objetivo evitar la congestión y mantener el tamaño medio de las colas en niveles bajos. No requiere que los routers mantengan ninguna información del estado de las conexiones.
+
+En lugar de que los nodos descarten paquetes cuando se les llena la cola, si la cola está más de un cierto porcentaje (umbral) llena, descartan un nuevo paquete con una probabilidad $p$.
+
+\texttt{RED} tiene problemas de imparcialidad con las conexiones de baja velocidad: cuando se alcanza el umbral, \texttt{RED} descarta paquetes aleatoriamente sin considerar si se trata de una conexión que está usando más de su cuota de recursos o menos. Es por esto que se implementó una mejora que se convirtió en \texttt{FRED} (\emph{Flow Random Early Detection}) en el que se controla a los usuarios ``bandidos'': mantiene umbrales y tasas de ocupación del buffer para cada flujo activo. La desventaja notoria de esto es que necesita guardar información por cada flujo, produciendo un alto costo en los routers (debe mirar la fuente, destino, puertos y protocolo del paquete por cada paquete que llega).
+
+\subsubsubsection{Traffic shaping}
+\emph{\textbf{Traffic shaping}} es un concepto de lazo abierto que intenta guiar la congestión forzando a los paquetes a transmitirse a una velocidad más predecible. Intenta evitar el problema que causa el tráfico de tipo \emph{burst traffic}. Hay varios métodos que lo usan:
+\begin{itemize}
+    \item Leaky bucket.
+    \item Token bucket.
+\end{itemize}
+
+% \subsection{RFC5681}
+
+% \subsubsection{Slow start}
+% \textbf{\emph{Slow start}} es parte del algoritmo de control de congestión de \texttt{TCP} para evitar que un nodo sobrecargue a la red enviando demasiados datos.
+
+\caja{0.8}{
+    Se define \textbf{marshalling} como el proceso de transformar la representación en memoria de un objeto a una forma apropiada para  almacenamiento o transmisión.
+}
+
+% \section{Aplicaciones}
+% \section{DNS}
+% Los \texttt{DNS} (\emph{Dynamic Name Service})
+
+\newpage
+\section{Fuentes}
+\begin{itemize}
+    \item Slides de la cátedra de Teoría de las comunicaciones de Claudio Righetti.
+    \item Apuntes de clase de Julián Sackmann.
+\end{itemize}
+
+% \newpage
+
+% \section{Agradecimientos}
+% \begin{itemize}
+% 	\item A tu vieja.
+% \end{itemize}
+
+\end{document}
