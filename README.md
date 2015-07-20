@@ -1,2 +1,2 @@
 # Redes-Apunte-jsackmann
-Apunte para el final de Teoría de Lenguajes (AKA Redes)
+Apunte para el final de Teoría de las Comunicaciones (AKA Redes)
