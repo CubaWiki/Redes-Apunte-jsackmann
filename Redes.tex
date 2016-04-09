@@ -196,7 +196,7 @@ Julián \textsc{Sackmann}\\[2cm] % Your name
 \section{Introducción}
 \begin{itemize}
 	\item \textbf{Internet}: la red de redes más grande del mundo, que usa los protocolos \texttt{TCP} y \emph{packet switching}. Funciona sobre cualquier subsistema de comunicaciones.
-	\item Nodo: tiene asociada una dirección (\emph{bytestring} que lo idenetifica unívocamente)
+	\item Nodo: tiene asociada una dirección (\emph{bytestring} que lo identifica unívocamente)
 	\begin{itemize}
 		\item \emph{hosts}.
 		\item \emph{switches}.
@@ -279,7 +279,7 @@ Es un modelo conceptual que caracteriza y estandariza las estructura de una red 
 \end{center}
 
 
-Las comunicaciones se dan en capas que se brindan servicios entre si. Pasar por cada capa implica el agregado de información de control en forma de encabezados:
+Las comunicaciones se dan en capas que se brindan servicios entre sí. Pasar por cada capa implica el agregado de información de control en forma de encabezados:
 \ig{0.3}{Encabezados.png}
 
 
@@ -292,13 +292,13 @@ Las comunicaciones se dan en capas que se brindan servicios entre si. Pasar por 
 \begin{itemize}
     \item \textbf{Señal}: es una onda electromagnética con dos campos ortogonales: uno eléctrico y uno magnético.
     \item \textbf{Onda electromagnética}: es un campo eléctrico magnético que se propaga por un medio, vibrando a una frecuencia determinada. TIene un comportamiento periódico en el eje longitudinal.
-    \item \textbf{Logintud de onda}: es el periodo o repetición a longitudes constantes. Coloqualmente, es la ``distancia que ocupa un ciclo''. Se define como: $\displaystyle \lambda = \frac{v}{f}$ donde:
+    \item \textbf{Logintud de onda}: es el periodo o repetición a longitudes constantes. Coloquialmente, es la ``distancia que ocupa un ciclo''. Se define como: $\displaystyle \lambda = \frac{v}{f}$ donde:
     \begin{itemize}
         \item $v$ es la velocidad de la onda en el medio de transmisión.
         \item $f$ es la frecuencia de oscilación.
     \end{itemize}
     \item Una función $f$ es periódica si existe un valor $T$ tal que $f(t) = f(t + T)$. El $T$ más chico que cumpla esto (mayor que 0) se lo llama \textbf{período fundamental}.
-    \item La serie trigonométrica de Fourier permite expresar funciones periodicas $f(t)$ con período $T$ de la siguiente forma:
+    \item La serie trigonométrica de Fourier permite expresar funciones periódicas $f(t)$ con período $T$ de la siguiente forma:
     \begin{center}
         $f(t) = \displaystyle \frac{1}{2}a_0 + \sum_{i=0}^{\infty}[a_i\ cos(n\omega_0\ t) + b_i\ sen(n\omega_0\ t)]$
     \end{center}
