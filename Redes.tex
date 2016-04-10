@@ -571,7 +571,7 @@ La \textbf{modulación} es proceso de variación de cierta característica de un
 Existen 4 tipos de modulación:
 \begin{itemize}
     \item Moduladora Analógica / Portadora Analógica: usada para las radios AM/FM.
-    \item Moduladora Analógica / Portadora Digital: conversión de señales analógicas en digitales, llevada a cabo por CODECS. Puede ser \emph{modulación por impulsos modificados} (PCM), o \emph{modulación delta} (se codifican sólo las diferencias).
+    \item Moduladora Analógica / Portadora Digital: conversión de señales analógicas en digitales (\texttt{digitalización}), llevada a cabo por CODECS. Puede ser \emph{modulación por impulsos modificados} (PCM), o \emph{modulación delta} (se codifican sólo las diferencias).
     \item Moduladora Digital / Portadora Analógica: se usa para la transmisión de datos digitales a través de la red de telefonía (que fue diseñada para transmitir señales analógicas en el rango de frecuencias de voz (\emph{300-3400Hz})).
     \item Moduladora Digital / Portadora Digital: los datos binarios se transmiten codificando cada bit de datos en cada elemento de señal. Evita problema de sincronismos.
 \end{itemize}
@@ -627,17 +627,18 @@ Observemos que podemos aumentar la velocidad de transmisión representando más 
 \end{center}
 
 \subsubsection{Codificación}
-La \textbf{digitalización} es el proceso de conversión de señales analógicas en digitales. Los dispositivos que la llevan a cabo se llaman \emph{codec}
+
+% La \textbf{digitalización} es el proceso de conversión de señales analógicas en digitales. Los dispositivos que la llevan a cabo se llaman \emph{codec}
 
 % Codificación digital
 % Se entiende por Codificación en el contexto de la Ingeniería al proceso de conversión de un sistema de datos de origen a otro sistema de datos de destino. De ello se desprende como corolario que la información contenida en esos datos resultantes deberá ser equivalente a la información de origen. Un modo sencillo de entender el concepto es aplicar el paradigma de la traducción entre idiomas en el ejemplo siguiente: home = hogar. Podemos entender que hemos cambiado una información de un sistema (inglés) a otro sistema (español) y que esencialmente la información sigue siendo la misma. La razón de la codificación está justificada por las operaciones que se necesiten realizar con posterioridad. En el ejemplo anterior para hacer entendible a una audiencia hispana un texto redactado en inglés es convertido al español.
 
 % En ese contexto la codificación digital consiste en la traducción de los valores de tensión eléctrica analógicos que ya han sido cuantificados (ponderados) al sistema binario, mediante códigos preestablecidos. La señal analógica va a quedar transformada en un tren de impulsos de señal digital (sucesión de ceros y unos). Esta traducción es el último de los procesos que tiene lugar durante la conversión analógica-digital. El resultado es un sistema binario que está basado en el álgebra de Boole.
 
-También existen distintas técnicas:
+Para la modulación digital con portadora digital, también existen distintas técnicas:
 \begin{itemize}
-    \item \textbf{NRZ}: consiste en usar una tensión negativa para un 1 y una positiva para un 0.
-    \item \textbf{NRZI}: los datos se codifican mediante la presencia o ausencia de una transición al principio del intervalo de un 1.
+    \item \textbf{NRZ}: consiste en usar una tensión positiva para un 1 y una negativa para un 0. Hay pérdida de sincronización cuando un mismo símbolo se repite muchas veces seguidas (¿fueron diez 0, u once?).
+    \item \textbf{NRZI}: cada vez que aparece un 1 en la señal original, se genera una transición. Soluciona muchos 1 seguidos, pero no con los 0.
     \item \textbf{Manchester}: se codifica mediante una transición en la mitad del intervalo de duración del bit: de bajo a alto representa un 1 y de alto a bajo un 0.
     \item \textbf{Manchester diferencial}: la codificacón de un 0 se representa por la presencia de una transición al principio del intervalo del bit y un 1 mediante la ausencia.
     \item \textbf{Bipolar-AMI}: un 0 se representa por la ausencia de señal y un 1 se repreesnta mediante un pulso positivo seguido de uno negativo.
@@ -686,7 +687,7 @@ Llamemos $e$ a la cantidad de errores introducidos durante la transmisión.
 \end{itemize}
 
 \subsection{Retransmisiones}
-Cuando se detecta un error, pero no se puede corregir, es necesario que le emisor retransmita el paquete. Hay dos tipos de retransmisiones:
+Cuando se detecta un error, pero no se puede corregir, es necesario que el emisor retransmita el paquete. Hay dos tipos de retransmisiones:
 \begin{itemize}
     \item Explícitas: involucra mensajes de control específicos para pedir un datos nuevamente.
     \item Implícitas: el receptor descarta el mensaje y cuando ocurra un time-out se asume que el dato se perdió y el emisor lo reenvía.
@@ -725,7 +726,7 @@ Observemos que el protocolo \emph{stop and wait} no llena demasiado el canal. Es
 \ig{0.5}{SAWvsSW.png}
 
 
-El protocolo sliding window (\emph{de ventana deslizante}) se utiliza para garantizar la entreg de paquetes confiable y en orden.
+El protocolo sliding window (\emph{de ventana deslizante}) se utiliza para garantizar la entrega confiable y en orden de paquetes.
 
 Conceptualmente a cada paquete se la asigna un número de secuencia, que el receptor utiliza para verificar que estén todos y reordenarlos. Se acota la cantidad de paquetes que pueden enviarse o recibirse en un momento dado. La cantidad de paquetes que el emisor puede mandar ``seguidos'' se conoce como \textbf{SWS} (\emph{sender window size}) y se calcula de la siguiente manera:
 
@@ -759,7 +760,7 @@ Usando selective \texttt{ACK} se puede mitigar este problema para minimizar la c
 
 \ig{0.65}{conSelectiveACK.png}
 
-Se agrega el concepto de ventana también para el receptor \textbf{RWS} (reciever window size). No usar selective \texttt{ACK} se puede considerar como $RWS = 1$.
+Se agrega el concepto de ventana también para el receptor \textbf{RWS} (receiver window size). No usar selective \texttt{ACK} se puede considerar como $RWS = 1$.
 
 Si se usa selective \texttt{ACK}, entonces $RWS = SWS$ (en caso óptimo. Si hay problemas de buffering o cosas así, puede ser menor $1\leq RWS \leq SWS$).
 
@@ -767,7 +768,7 @@ Si se usa selective \texttt{ACK}, entonces $RWS = SWS$ (en caso óptimo. Si hay 
 
 El emisor se mantiene las siguientes variables:
 \begin{itemize}
-    \item $n_t$: próximo número de sequencia a enviar.
+    \item $n_t$: próximo número de secuencia a enviar.
     \item $w_t$: tamaño de la ventana del emisor.
     \item $n_a$: número más alto de paquete que el receptor confirmó recibir.
 \end{itemize}
@@ -824,7 +825,7 @@ Viene en dos sabores: \texttt{CSMA}/\textbf{CD} (\emph{collision detection}) y \
 
 \emph{Collision detection} es la estrategia utilizada por \texttt{802.3} (\emph{Ethernet}). Esto se debe a que tiene la capacidad de escuchar el canal mientras transmite por él (por ser \emph{full duplex}).
 
- Utiliza dos estrategias. En primer lugar, el adaptador no transmite si detecta que algún otro adaptado está transmitiendo. A esto se le llama \textbf{detección de portadora}. Por otro lado, si el adaptador detecta que otro adaptador está transmitiendo mientras él mismo estaba transmitiendo, aborta la transmisión y envía la señal de \emph{Jam}. A esto se le llama \textbf{detección de colisión}.
+ Utiliza dos estrategias. En primer lugar, el adaptador no transmite si detecta que algún otro adaptador está transmitiendo. A esto se le llama \textbf{detección de portadora}. Por otro lado, si el adaptador detecta que otro adaptador está transmitiendo mientras él mismo estaba transmitiendo, aborta la transmisión y envía la señal de \emph{Jam}. A esto se le llama \textbf{detección de colisión}.
 
 Cualquiera sea estos dos motivos, el adaptador espera un tiempo aleatorio con \emph{exponential backoff} para volver a intentar la retransmisión.
 
@@ -846,7 +847,7 @@ Observemos que esta noción de eficiencia tiende a 1 cuando $t_{prop} \rightarro
     \begin{itemize}
         \item La detección de colisiones en redes LAN cableadas es fácil.
         \item El tiempo medio necesario para detectar una colisión es relativamente bajo.
-        \item Puede ser empleado en sistemas de control de procesos contínuos si la carga de tráfico de la red es baja (inferior al 20 \%).
+        \item Puede ser empleado en sistemas de control de procesos continuos si la carga de tráfico de la red es baja (inferior al 20 \%).
         \item Ofrece un rendimiento mayor en especial cuando existen pocas colisiones.
     \end{itemize}
 }{
@@ -861,7 +862,7 @@ Observemos que esta noción de eficiencia tiende a 1 cuando $t_{prop} \rightarro
 \subsubsection{CSMA/CA}
 % A diferencia de lo que ocurre con \texttt{CSMA/CD}, la técnica de \emph{collision avoidance} involucra que los nodos explícitamente anuncien su intención de utilizar el canal con el fin de minimizar la probabilidad de colisiones.
 
-\emph{Collision Avoidance} es la estratégia usada por \texttt{802.11} (\emph{Wifi}). Debido a que la mayor parte de las redes son \emph{half-duplex}, no tienen la capacidad de escuchar a medida que transmiten, con lo que es necesaria una nueva estrategia.
+\emph{Collision Avoidance} es la estrategia usada por \texttt{802.11} (\emph{Wifi}). Debido a que la mayor parte de las redes son \emph{half-duplex}, no tienen la capacidad de escuchar a medida que transmiten, con lo que es necesaria una nueva estrategia.
 
 Antes de transmitir, una estación debe determinar el estado del medio. Si el medio está libre, el emisor realiza una espera adicional llamada \textbf{IFS} (\emph{inter frame spacing}). El objetivo de este espaciado es evitar la colisión en el caso de que el medio hubiera estado siendo usado, pero todavía fuera del \emph{threshold} de detección
 %//MJSDEBUG FIJATE SI THRESHOLD SE ESCRIBE ASÍ.
@@ -906,6 +907,8 @@ Dado que se comparte el medio, todos los nodos van a recibir los paquetes que to
 \end{itemize}
 
 ~\newline
+
+\subsection{WiFi}
 
 Las tecnologías inalámbricas tienen numerosos inconvenientes:
 \begin{itemize}
@@ -1004,7 +1007,7 @@ Cuando el emisor quiere transmitir, escucha el canal. Si lo detecta vacio por DI
 
 ~\newline
 
-Esta técnica tiene el problema de que desperdicia demasiasdo ancho de banda y no resuelve el problema de la terminal oculta.
+Esta técnica tiene el problema de que desperdicia demasiado ancho de banda y no resuelve el problema de la terminal oculta.
 
 
 Para solucionar eso se agrega el intercambio \textbf{RTS-CTS}:
@@ -1035,6 +1038,8 @@ Los paquetes \texttt{RTS} pueden involucrar el tamaño de la transmisión, que e
 \end{itemize}
 
 \subsubsection{Redes de espectro disperso}
+La idea es expandir la señal a través de un ancho de banda mayor que el mínimo requerido para transmitir con éxito. Esto evita concentrar la potencia sobre una única y estrecha banda de frecuencia, lo que puede dar lugar a interferencia catastrófica (accidental o deliberada), además de que se puede interceptar fácilmente la señal si usa una frecuencia constante.
+
 Existen distintos métodos de transmisión:
 
 \subsubsubsection{FHSS}
@@ -1058,11 +1063,10 @@ Existen distintos métodos de transmisión:
     \end{itemize}
 }
 
-
 \subsubsubsection{OFDM}
 \textbf{OFDM} (\emph{Orthogonal Frequency Division Multiplexing}) es un método de multiplexación que consiste en enviar un conjunto de ondas portadoras de diferentes frecuencias.
 
-Usa un número de señales ortogonales para que envíen datos en forma paralela por varios canales. Cada carrier se module con una técnica convencional (\texttt{QAM} o \texttt{PSA}) y no necesariamente la misma.
+Usa un número de señales ortogonales para que envíen datos en forma paralela por varios canales. Cada carrier se modula con una técnica convencional (\texttt{QAM} o \texttt{PSA}) y no necesariamente la misma.
 
 \texttt{\textbf{LTE}} usa \texttt{OFDM}.
 
@@ -1072,6 +1076,7 @@ Su principal ventaja es la resistencia a condiciones adversas en el canal (atenu
 
 
 \section{Nivel de Red}
+%%% Faltaria hablar de STP...
 Un \textbf{switch} de nivel de red es un ``appliance'' que conecta enlaces para formar redes más grandes. Su objetivo es lograr que la mayor cantidad de paquetes que entren al \emph{switch} vayan a la salida apropiada.
 
 Para eso cuenta con múltiples entradas y múltiples salidas. Cuando recibe un frame por un puerto de entrada, selecciona un puerto de salida utilizando una dirección que trae el \emph{header} del paquete. Los frames pueden ser de longitud variable o fija.
@@ -1719,7 +1724,7 @@ La solución de Clark al problema del \emph{silly window} consiste en no enviar 
 ~\newline
 
 \begin{center}
-    $\displaystyle BW = \text{ bandwith } = \frac{\displaystyle \frac{data}{ciclo}}{\displaystyle \frac{tiempo}{ciclo}}$
+    $\displaystyle BW = \text{ bandwidth } = \frac{\displaystyle \frac{data}{ciclo}}{\displaystyle \frac{tiempo}{ciclo}}$
 \end{center}
 
 \subsection{Congestión}
