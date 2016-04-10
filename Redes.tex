@@ -222,14 +222,16 @@ Julián \textsc{Sackmann}\\[2cm] % Your name
 	\end{itemize}
 	\item \textbf{Multiplexación}: es la combinación de dos o más canales de información en un solo medio de transmisión.
 	\begin{itemize}
-		\item ...por división de tiempo: los paquetes se encolan y compiten por el enlace. Si el buffer que tiene el nodo no alcanza, se denomina \textbf{congestión}.
+		\item ...por división de tiempo (TDM).
 		% \begin{center}
 		% 	\ig{0.4}{MultiplexTime.png}
 		% \end{center}
-		\item ...por división de frecuencia.
+		\item ...por división de frecuencia (FDM).
 		% \begin{center}
 		% 	\ig{0.4}{MultiplexFreq.png}
 		% \end{center}
+		\item ...por longitud de onda (WDM).
+		\item ...estadística. División del tiempo "bajo demanda". Los paquetes se encolan y compiten por el enlace. Si el buffer que tiene el nodo no alcanza, se denomina \textbf{congestión}.
 	\end{itemize}
 \end{itemize}
 
@@ -300,11 +302,11 @@ Las comunicaciones se dan en capas que se brindan servicios entre sí. Pasar por
     \item Una función $f$ es periódica si existe un valor $T$ tal que $f(t) = f(t + T)$. El $T$ más chico que cumpla esto (mayor que 0) se lo llama \textbf{período fundamental}.
     \item La serie trigonométrica de Fourier permite expresar funciones periódicas $f(t)$ con período $T$ de la siguiente forma:
     \begin{center}
-        $f(t) = \displaystyle \frac{1}{2}a_0 + \sum_{i=0}^{\infty}[a_i\ cos(n\omega_0\ t) + b_i\ sen(n\omega_0\ t)]$
+        $f(t) = \displaystyle \frac{1}{2}a_0 + \sum_{n=0}^{\infty}[a_n\ cos(n\omega_0\ t) + b_n\ sen(n\omega_0\ t)]$
     \end{center}
     donde
     \begin{center}
-        $\omega_0 = \displaystyle \frac{2p}{T}$
+        $\omega_0 = \displaystyle \frac{2\pi}{T}$
     \end{center}
 
     Para encontrar los coeficientes, se usa la ortogonalidad.
@@ -317,7 +319,7 @@ Para enviar datos binarios por un canal necesitamos una onda cuadrada. Ergo, nec
 \begin{itemize}
     \item \textbf{Espectro}: margen de frecuencias contenidas en la señal.
     \item \textbf{Ancho de banda absoluto}: anchura del espectro.
-    \item \textbf{Ancho de banda efectivo}: banda de frecuencias que ontienen la mayor parte de la energía.
+    \item \textbf{Ancho de banda efectivo}: banda de frecuencias que contienen la mayor parte de la energía.
     \item \textbf{Componente continua (DC)}: componente de frecuencia cero.
 \end{itemize}
 
@@ -340,7 +342,7 @@ Para enviar datos binarios por un canal necesitamos una onda cuadrada. Ergo, nec
 \end{itemize}
 
 \subsection{Teorema del muestreo}
-Vimos que las señales periodicas se pueden descomponer como un sumatorio de senos y cosenos cada uno de una amplitud, frecuencia y fase diferente (Desarrollo en Serie de Fourier). Si dichas sinusoides las muestreamos, el caso más crítico de muestreo será aquella de mayor frecuencia (frecuencia máxima $f_m$ que corresponde con el periodo mínimo $T_{min}=\frac{1}{f_m}$) la cual vamos a llamar:
+Vimos que las señales periódicas se pueden descomponer como un sumatorio de senos y cosenos cada uno de una amplitud, frecuencia y fase diferente (Desarrollo en Serie de Fourier). Si dichas sinusoides las muestreamos, el caso más crítico de muestreo será aquella de mayor frecuencia (frecuencia máxima $f_m$ que corresponde con el periodo mínimo $T_{min}=\frac{1}{f_m}$) la cual vamos a llamar:
 \begin{center}
     $f(t)=A\ sin(2\pi f_m t + \phi)$
 \end{center}
@@ -358,7 +360,7 @@ donde:
 
 \underline{Ejemplos}:
 \begin{itemize}
-    \item CDs de audio samplean 44100 veces por segundo $\Rightarrow$ captan frecuencias de 22.05KHz.
+    \item CDs de audio samplean 44.100 veces por segundo $\Rightarrow$ captan frecuencias de 22.05KHz.
     \item La voz tiene un espectro de 4KHz en el teléfono $\Rightarrow$ se tiene que samplear a 8000 muestras por segundo (125 $\mu$seg/muestra).
 \end{itemize}
 
@@ -385,12 +387,12 @@ La conversión analógica digital consta de dos etapas.
 \subsection{Teoría de la información}
 Fue establecida por Claude Shannon. Predica sobre codificaciones usadas para canales con o sin ruido.
 
-Uno de ellos describe la máxima eficiencia posible (teórica) de una codificación con corrección de errores frente a los niveles de ruido y corrupción de datos. Es un resultado no-constructivista (no dice nada sobre \emph{como} implementar esa codificación).
+Uno de ellos describe la máxima eficiencia posible (teórica) de una codificación con corrección de errores frente a los niveles de ruido y corrupción de datos. Es un resultado no-constructivista (no dice nada sobre \emph{cómo} implementar esa codificación).
 
 \caja{0.8}{
-    \emph{Definición}: Sea $E$ un suceso que puede presentarse con probabilidad $P(E)$. Cuando $E$ tiene lugar, decimos que hemos recibido $l(E)$ unidades de información, donde:
+    \emph{Definición}: Sea $E$ un suceso que puede presentarse con probabilidad $P(E)$. Cuando $E$ tiene lugar, decimos que hemos recibido $I(E)$ unidades de información, donde:
     \begin{center}
-        $\displaystyle l(E) = log_{x}(\frac{1}{P(E)})$
+        $\displaystyle I(E) = log_{x}(\frac{1}{P(E)})$
     \end{center}
 }
 
@@ -398,9 +400,9 @@ Si la probabilidad es muy alta, entonces nos da muy poca información.
 
 Dependiendo de qué $x$ utilicemos (la base del logaritmo), obtendremos una unidad distinta:
 \begin{itemize}
-    \item $(x = 2) \Rightarrow l(E) = log_2(\frac{1}{P(E)})$ \textbf{bits} de información
-    \item $(x = e) \Rightarrow l(E) = ln(\frac{1}{P(E)})$ \textbf{nats} de información.
-    \item $(x = 10) \Rightarrow l(E) = log_{10}(\frac{1}{P(E)})$ \textbf{Hartleys} de información
+    \item $(x = 2) \Rightarrow I(E) = log_2(\frac{1}{P(E)})$ \textbf{bits} de información
+    \item $(x = e) \Rightarrow I(E) = ln(\frac{1}{P(E)})$ \textbf{nats} de información.
+    \item $(x = 10) \Rightarrow I(E) = log_{10}(\frac{1}{P(E)})$ \textbf{Hartleys} de información
 \end{itemize}
 
 
@@ -437,7 +439,7 @@ Representa una medida de la incertidumbre media acerca de una variable aleatoria
     \item La entropía se anula $\Leftrightarrow$ un estado de la variable es 1 y el resto 0.
     \item La entropía es máxima (mayor incertidumbre del mensaje) cuando todos los  valores posibles de $X$ son equiprobables. Observemos que si hay $n$ estados equiprobables ($P(i) = \frac{1}{n}$), entonces:
     \begin{center}
-        $\displaystyle H(X) = -\sum_{i=1}^n P(i) = -n \left(\frac{1}{n}\right)\ log_2\left(\frac{1}{n}\right) = - (log_2(1) - log_2(n))$
+        $\displaystyle H(X) = -\sum_{i=1}^n P(i)*I(i) = -n \left(\frac{1}{n}\right)\ log_2\left(\frac{1}{n}\right) = - (log_2(1) - log_2(n))$
     \end{center}
 ~\newline
     \begin{center}
@@ -541,10 +543,10 @@ La ley de \textbf{capacidad de Shannon} establece que para un cierto nivel de ru
 
 Sin embargo, la cantidad de niveles debe mantenerse: $M \leq \displaystyle \sqrt{1+SNR}$
 
-En principio, si se aumenta el ancho de banda ($B$) y la potencia de la señal ($S$), aumenta la velocidad binaria ($C$). Sim embargo,
+En principio, si se aumenta el ancho de banda ($B$) y la potencia de la señal ($S$), aumenta la velocidad binaria ($C$). Sin embargo,
 \begin{itemize}
     \item Aumentar el ancho de banda aumenta el ruido.
-    \item Aumentar la potencia impacta en las ni linealidades y el ruido de la intermodulación.
+    \item Aumentar la potencia impacta en las no linealidades y el ruido de la intermodulación.
 \end{itemize}
 
 Luego, la velocidad binaria teórica máxima está dada por la fórmula:
@@ -564,13 +566,13 @@ Luego, la velocidad binaria teórica máxima está dada por la fórmula:
 
 
 \subsubsection {Modulación}
-La \textbf{modulación} es proceso de variación de cierta característica de una señal (llamada \emph{portadora}) de acuerdo con la señal del mensaje (llamda \emph{moduladora}).
+La \textbf{modulación} es proceso de variación de cierta característica de una señal (llamada \emph{portadora}) de acuerdo con la señal del mensaje (llamada \emph{moduladora}).
 
 Existen 4 tipos de modulación:
 \begin{itemize}
     \item Moduladora Analógica / Portadora Analógica: usada para las radios AM/FM.
-    \item Moduladora Analógica / Portadora Digital.
-    \item Moduladora Digital / Portadora Analógica: se usa para la transmisión de datos digitales a través de la red de telefonía (que fue disñada para transmitir señales analógicas en el rango de frecuencias de voz (\emph{300-3400Hz})).
+    \item Moduladora Analógica / Portadora Digital: conversión de señales analógicas en digitales, llevada a cabo por CODECS. Puede ser \emph{modulación por impulsos modificados} (PCM), o \emph{modulación delta} (se codifican sólo las diferencias).
+    \item Moduladora Digital / Portadora Analógica: se usa para la transmisión de datos digitales a través de la red de telefonía (que fue diseñada para transmitir señales analógicas en el rango de frecuencias de voz (\emph{300-3400Hz})).
     \item Moduladora Digital / Portadora Digital: los datos binarios se transmiten codificando cada bit de datos en cada elemento de señal. Evita problema de sincronismos.
 \end{itemize}
 
@@ -614,7 +616,7 @@ Hay distintas técnicas:
     \item \textbf{Velocidad de transmisión}: equivale a la velocidad de modulación multiplicada por el número de bits representados por muestra.
 \end{itemize}
 
-Observemos que podemos aumentar la velocida de transmisión representando más de un bit con cada elemento de la señal. Por ejemplo:
+Observemos que podemos aumentar la velocidad de transmisión representando más de un bit con cada elemento de la señal. Por ejemplo:
 \begin{center}
     $S(t) = \begin{cases}
         A cos(2 \pi f_c t + 45)\ \hspace{1.1cm}\Rightarrow\hspace{1cm}00\\
