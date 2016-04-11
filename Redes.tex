@@ -1581,7 +1581,7 @@ donde
 
 Cada conexión en \texttt{TCP} se identifica con la tupla \texttt{(srcIpAddr, srcPort, dstIpAddr, dstPort)}. El protocolo usa \emph{sliding window} y control de flujo. El emisor transmite los datos con un cierto \texttt{seqNum} y el receptor devuelve \texttt{ACK} + \texttt{avertisedWindow}.
 
-Para establecer una conexión, \texttt{TCP} utiliza un mecanismo llamado \textbf{three-way handshake}: antes de que un cliente intente conectarse con un servidor, deben primero establecer una conexión enviándo tres mensajes:
+Para establecer una conexión, \texttt{TCP} utiliza un mecanismo llamado \textbf{three-way handshake}: antes de que un cliente intente conectarse con un servidor, deben primero establecer una conexión enviando tres mensajes:
 \begin{itemize}
     \item \texttt{SYN}: el cliente le envía al servidor un mensaje \texttt{SYN} y un determinado número de secuencia aleatorio.
     \item \texttt{SYN+ACK}: en respuesta, el servidor envía un paquete con \texttt{SYN+ACK} que tiene el \texttt{ACK} seteado en 1 + el número de secuencia recibido. En su número de secuencia envía otro número aleatorio.
@@ -1612,7 +1612,7 @@ En este punto la conexión se considera \emph{half-open}. El nodo que envió el 
 Luego, de que ambos intercambios hayan terminado, el nodo $A$ debe esperar un cierto tiempo antes de cerrar la conexión y permitir reasignar su puerto. Esto está pensado para prevenir que si se reasigna el puerto demasiado rápido puedan llegar paquetes demorados de la conexión anterior y generar confusión.
 
 \subsubsection{Terminar con three-way handshake}
-Finalizar un conexión con \emph{three-way handhsake} es igual que con 4 mensajes, pero se combinan los dos mensajes consecutivos del mismo host en uno sólo (cuando a ese host no le interesa dejar la conexión en estado \emph{half-open}). Luego, la secuencia de mensajes es:
+Finalizar una conexión con \emph{three-way handhsake} es igual que con 4 mensajes, pero se combinan los dos mensajes consecutivos del mismo host en uno sólo (cuando a ese host no le interesa dejar la conexión en estado \emph{half-open}). Luego, la secuencia de mensajes es:
 \begin{itemize}
     \item Una de las partes envía \texttt{FIN}.
     \item El otro nodo envía \texttt{FIN+ACK}.
@@ -1641,7 +1641,7 @@ Para la parte de \textbf{control de flujo}, tanto el emisor como el receptor tie
 Del lado del receptor, se debe cumplir que:
 \begin{itemize}
     \item \texttt{LastByteRcvd} - \texttt{LastByteRead} $\leq$ \texttt{MaxRcvBuffer}.
-    \item \texttt{AdvertisedWindow} = \texttt{MaxRcvBuffer} - (\texttt{LastByteRcvd} - \texttt{NextByteRead})
+    \item \texttt{AdvertisedWindow} = \texttt{MaxRcvBuffer} - ((\texttt{NextByteExpected} - 1) - \texttt{LastByteRead})
 \end{itemize}
 
 Del lado del transmisor,
@@ -1708,7 +1708,7 @@ El \textbf{algoritmo de Nagle} intenta reducir la cantidad de paquetes \texttt{I
 \end{algorithm}
 
 
-Si la aplicación receptora lee muy despacio, el buffer se llena y anuncia un tamapo de ventana de lectura = 0. Luego, el emisor deja de transmitir. Cuando el receptor lea vuelve a aumentar la ventana y manda un \texttt{ACK} anunciándolo. ¿Qué pasa si se pierde ese \texttt{ACK}? el emisor no puede enviar datos y el receptor no sabe que se perdió el \texttt{ACK}.
+Si la aplicación receptora lee muy despacio, el buffer se llena y anuncia un tamaño de ventana de lectura = 0. Luego, el emisor deja de transmitir. Cuando el receptor lea vuelve a aumentar la ventana y manda un \texttt{ACK} anunciándolo. ¿Qué pasa si se pierde ese \texttt{ACK}? el emisor no puede enviar datos y el receptor no sabe que se perdió el \texttt{ACK}.
 
 Para solucionar esto, \texttt{TCP} implementa \textbf{\emph{persistent timer}}: periódicamente se envían \emph{window probes} con 1 byte de dato.
 
@@ -1746,7 +1746,7 @@ Decimos que hay \textbf{congestión} cuando hay un estado sostenido de sobrecarg
     El control de flujo contra tráfico punto a punto entre un receptor y un transmisor y evita que los transmisores sobrecarguen a receptores lentos.
 }
 
-\subsubsection{Cáusas de congestión}
+\subsubsection{Causas de congestión}
 Se pueden nombrar muchas:
 \begin{itemize}
     \item Procesadores lentos.
@@ -1762,7 +1762,7 @@ Se pueden nombrar muchas:
 \subsubsection{Control de congestión}
 Definimos entonces al \textbf{control de congestión} como el esfuerzo hecho por los nodos de la red para prevenir o responder a sobrecargas de la red que conducen a pérdidas de paquetes.
 
-Se pueden hacer 3 cosas para evitar la congestión:
+Se pueden hacer 4 cosas para evitar la congestión:
 \begin{itemize}
     \item Sobredimensionar.
     \item Diseñar.
@@ -1814,9 +1814,14 @@ En lugar de que los nodos descarten paquetes cuando se les llena la cola, si la 
     Se define \textbf{marshalling} como el proceso de transformar la representación en memoria de un objeto a una forma apropiada para  almacenamiento o transmisión.
 }
 
+
+%%%%%%% FALTA TODO CONTROL DE CONGESTIÓN DE TCP, APLICACIONES, SEGURIDAD.... 
+
 % \section{Aplicaciones}
 % \section{DNS}
 % Los \texttt{DNS} (\emph{Dynamic Name Service})
+
+
 
 \newpage
 \section{Fuentes}
