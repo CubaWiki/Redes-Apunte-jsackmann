@@ -1114,7 +1114,7 @@ Cada \emph{switch} mantiene una tabla de \texttt{VC} (\emph{virtual circuit}) qu
 
 \begin{itemize}
     \item Las conexiones permanentes las define y finaliza el administrador de la red. Después de creado el circuito virtual ya pueden mandar datos.
-    \item Cuando un nodo desea enviar datos a otro, envía un mensaje solicitando una conexión. Este mensaje si contiene toda la información necesaria para llegar a destino. Cuando el mensaje llega a destino, el destinatario le responde aceptando la conexión. A medida que va pasando por los switches, estos van ``generando estado'' para la conexión. O sea, creando las entradas en sus respectivas tablas de circuitos virtuales. Algo análogo ocurre para terminar la conexión.
+    \item Cuando un nodo desea enviar datos a otro, envía un mensaje solicitando una conexión. Este mensaje sí contiene toda la información necesaria para llegar a destino. Cuando el mensaje llega a destino, el destinatario le responde aceptando la conexión. A medida que va pasando por los switches, estos van ``generando estado'' para la conexión. O sea, creando las entradas en sus respectivas tablas de circuitos virtuales. Algo análogo ocurre para terminar la conexión.
 \end{itemize}
 
 
@@ -1167,7 +1167,7 @@ La cabecera de un datagrama IP contiene información que deben interpretar los r
 Notas:
 \begin{itemize}
     \item El checksum es de la cabecera, no de todo el datagrama.
-    \item Un datagrama IP (incluyendo la cabecera) tiene un tamaño máximo de 65535.
+    \item Un datagrama IP (incluyendo la cabecera) tiene un tamaño máximo de 65.535 bytes.
     \item El campo protocolo determina el uso que tiene el datagrama. Hay muchas opciones:
     \begin{itemize}
         \item 1: ICMP.
@@ -1214,9 +1214,9 @@ Existen tres rangos de IP que no pueden ser usados para IPs públicas (RFC 1918)
 \subsubsection{Fragmentación}
 \texttt{IP} debe poder funcionar sobre cualquier red subyacente. Como cada tecnología tiene distintos \texttt{MTU} (\emph{maximum transmission unit}), es necesario que los datagramas IP se adapten para respetar esto.
 
-Es por esto que IP define el concepto de \textbf{fragmentación}: si un router recibe un datagrama que debe enviar a una red en la que $MTU < \text{tamaño}(datagrama)$, entonces se fracciona el datagrama en varios, colocando valores particulares en el \emph{header} para su posterior reensablado del lado del destinatario.
+Es por esto que IP define el concepto de \textbf{fragmentación}: si un router recibe un datagrama que debe enviar a una red en la que $MTU < \text{tamaño}(datagrama)$, entonces se fracciona el datagrama en varios, colocando valores particulares en el \emph{header} para su posterior reensamblado del lado del destinatario.
 
-Todos los fragmentos que componen un mismo datagrama partido tienen el mismo identificador. De hecho, comparten toda la cabecera excepto por los campos \emph{MF (more fragments)} y \emph{desplazaminto del fragmento}.
+Todos los fragmentos que componen un mismo datagrama partido tienen el mismo identificador. De hecho, comparten toda la cabecera excepto por los campos \emph{MF (more fragments)} y \emph{desplazamiento del fragmento}.
 
 La unidad básica de fragmentación es 8 bytes. Los datos se reparten en tantos fragmentos como haga falta, todos múltiplos de 8 bytes (excepto el último).
 
@@ -1274,7 +1274,7 @@ Norma de la \texttt{ITU-T} para la interface entre los host y la red de conmutac
     \item Paquete: provee conexiones lógicas (\emph{virtual circuits}) entre los usuarios.
 \end{itemize}
 
-Aspecto claves incluyen:
+Aspectos claves incluyen:
 \begin{itemize}
     \item Paquetes de control de llamadas, señalización dentro de banda.
     \item Multiplexaje de circuitos virtuales en el nivel 3.
@@ -1297,8 +1297,8 @@ Los algoritmos de routeo se pueden separar en dos categorías:
 
 \subsubsubsection{Forwarding vs Routeo}
 \begin{itemize}
-    \item \textbf{Reenvío}: proceso de seleccionar un puerto de salida basado en la dirección de destino y las tablas de ruteo.
-    \item \textbf{Forwarding}: proceso mediante el cual se construyen las tablas de ruteo.
+    \item \textbf{Reenvío/Forwaridng}: proceso de seleccionar un puerto de salida basado en la dirección de destino y las tablas de ruteo.
+    \item \textbf{Ruteo}: proceso mediante el cual se construyen las tablas de ruteo.
 \end{itemize}
 % //MJSDO CUALQUIERA ESTO MAN.
 
@@ -1315,12 +1315,12 @@ El \textbf{problema de conteo a infinito} es una situación que puede darse con 
 
 \ig{0.5}{countToInfty.png}
 
-Si $A$ se cae, $B$ tiene que borrar esa información de su tabla. Como ahora $B$ no sabe llegar a $A$, cuando le llega un mensaje de $C$ diciendo ``si vas a través mío, podés llegara a $A$ en dos pasos'', actualiza tu tabla a 3. Esta información es incorrecta, porque la forma de llegar de $C$ a $A$ \textbf{es a través de} $B$. Luego empieza un ciclo en el que continuamente se van aumentando los la distancia sin parar.
+Si $A$ se cae, $B$ tiene que borrar esa información de su tabla. Como ahora $B$ no sabe llegar a $A$, cuando le llega un mensaje de $C$ diciendo ``si vas a través mío, podés llegara a $A$ en dos pasos'', actualiza tu tabla a 3. Esta información es incorrecta, porque la forma de llegar de $C$ a $A$ \textbf{es a través de} $B$. Luego empieza un ciclo en el que continuamente se van aumentando las distancias sin parar.
 
 \subsubsubsubsection{Soluciones}
 Para solucionar el \emph{count to infinity problem} se pueden usar dos heurísticas:
 \begin{itemize}
-     \item \textbf{Split horizon}: cuando un nodo $A$ recibe información de un nodo $B$ y compute la nueva ruta, envíe la información a todos sus hermanos \textbf{excepto a $B$}.
+     \item \textbf{Split horizon}: cuando un nodo $A$ recibe información de un nodo $B$ y compute la nueva ruta, envía la información a todos sus vecinos \textbf{excepto a $B$}.
      \item \textbf{Poison reverse}: cuando un nodo $A$ detecta que una de sus rutas conectadas se cayó, va a ``envenenar'' la ruta asignándole $\infty$ a su distancia y avisándolo a sus vecinos. Cuando uno de sus vecinos reciba esto, va a romper la regla de \emph{split horizon} y anunciarle a todos sus vecinos (incluido $A$) de la ruta caida.
  \end{itemize}
 
@@ -1340,11 +1340,12 @@ Para transmitir, cada nodo hace un paquete del estado del enlace \textbf{LSP} (\
 \end{itemize}
 
 \subsubsubsubsection{Reliable Flooding}
-La ténica de \textbf{reliable flooding} permite asegurar que la información que envía un nodo llegue a todos los nodos de la red.
+La técnica de \textbf{reliable flooding} permite asegurar que la información que envía un nodo llegue a todos los nodos de la red.
 
 \begin{itemize}
     \item Cada nodo almacena el \texttt{LSP} más reciente (número de secuencia más alto) de cada uno de los otros nodos.
-    \item Cuando un nodo recibe un \texttt{LSP} se lo reenvía a todos sus vecinos excepto al que me lo mandó \textbf{decrementando su } \texttt{TTL}.
+    \item Cuando un nodo recibe un \texttt{LSP} se lo reenvía a todos sus vecinos excepto al que me lo mandó.
+	\item Se decrementa periódicamente el \texttt{TTL} de cada LSP en la tabla.
     \begin{itemize}
         \item Si el \texttt{LSP} que recibe tiene \texttt{TTL}=0, lo descarta.
     \end{itemize}
@@ -1482,11 +1483,13 @@ Hoy en día se usa \textbf{BGP-v4} que también sirve para interconectar sistema
 
 Cada sistema autónomo tiene uno o más routers de borde y un portavoz que publica las redes locales, otras redes alcanzables e información de rutas.
 
-Los autonomous systems se dividen en cateogrías:
+\ig{0.8}{AutonomousSystems.png}
+
+Los autonomous systems se dividen en categorías:
 \begin{itemize}
-    \item \textbf{Stub AS} (tiene una única conexión a otro AS): transporta sólo tráfico local.
-    \item \textbf{Multihomed AS} (tiene conexiones a más de un AS): no transporta tráfico en tránsito.
-    \item \textbf{Transit AS} (tiene conexiones a más de un AS): transporta ambos tráfico local y en tránsito.
+    \item \textbf{Stub AS} (tiene una única conexión a otro AS): transporta sólo tráfico local. \emph{Small corporation}, en el ejemplo.
+    \item \textbf{Multihomed AS} (tiene conexiones a más de un AS): no transporta tráfico en tránsito. \emph{Large corporation}.
+    \item \textbf{Transit AS} (tiene conexiones a más de un AS): transporta ambos tráfico local y en tránsito. \emph{Backbone providers}.
 \end{itemize}
 
 % //MJSD FALTA PIM ESPARSO Y DENSO
